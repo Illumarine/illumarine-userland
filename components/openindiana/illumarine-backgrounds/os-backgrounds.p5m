@@ -11,9 +11,9 @@ set name=org.opensolaris.consolidation value=$(CONSOLIDATION)
 
 license $(COMPONENT_LICENSE_FILE) license='$(COMPONENT_LICENSE)'
 
-file path=usr/share/gnome-background-properties/openindiana-backgrounds.xml
-file path=usr/share/pixmaps/backgrounds/openindiana/openindiana-default.jpg
+file path=usr/share/gnome-background-properties/illumarine-backgrounds.xml
+file path=usr/share/pixmaps/backgrounds/illumarine/stylish.jpeg
 
 # Mate symlink
-link path=usr/share/mate-background-properties/openindiana-backgrounds.xml \
-  target=../gnome-background-properties/openindiana-backgrounds.xml
+link path=usr/share/mate-background-properties/illumarine-backgrounds.xml \
+  target=../gnome-background-properties/illumarine-backgrounds.xml

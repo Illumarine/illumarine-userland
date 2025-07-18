@@ -14,17 +14,17 @@
 
 include ../../../make-rules/shared-macros.mk
 
-COMPONENT_NAME=		openindiana-backgrounds
+COMPONENT_NAME=		illumarine-backgrounds
 COMPONENT_VERSION=	1.0
 COMPONENT_REVISION= 2
-COMPONENT_PROJECT_URL=	https://github.com/OpenIndiana/openindiana-backgrounds
-COMPONENT_SUMMARY=	Selection of OpenIndiana backgrounds for the desktop
+COMPONENT_PROJECT_URL=	https://github.com/Illumarine/illumarine-backgrounds
+COMPONENT_SUMMARY=	Selection of Illumarine backgrounds for the desktop
 COMPONENT_SRC=		$(COMPONENT_NAME)-$(COMPONENT_VERSION)
 COMPONENT_ARCHIVE=	$(COMPONENT_SRC).tar.gz
 COMPONENT_ARCHIVE_HASH=	\
   sha256:41ba81106998b4e322463590a21b0cd96300703bef07901f40461132bb884adc
 COMPONENT_ARCHIVE_URL= \
-  https://github.com/OpenIndiana/openindiana-backgrounds/archive/$(COMPONENT_VERSION).tar.gz
+  https://github.com/Illumarine/illumarine-backgrounds/archive/$(COMPONENT_VERSION).tar.gz
 COMPONENT_FMRI=	gnome/theme/background/os-backgrounds
 COMPONENT_CLASSIFICATION=	Desktop (GNOME)/Theming
 COMPONENT_LICENSE=	BSD
