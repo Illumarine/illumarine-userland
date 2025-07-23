@@ -28,12 +28,13 @@ USE_DEFAULT_TEST_TRANSFORMS= yes
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME=		gettext
-COMPONENT_VERSION=	0.25.1
+COMPONENT_VERSION=	0.26
+COMPONENT_REVISION=	1
 COMPONENT_SUMMARY=	GNU gettext - message handling utilities
 COMPONENT_PROJECT_URL=	https://www.gnu.org/software/gettext/
 COMPONENT_SRC=		$(COMPONENT_NAME)-$(COMPONENT_VERSION)
 COMPONENT_ARCHIVE=	$(COMPONENT_SRC).tar.xz
-COMPONENT_ARCHIVE_HASH=	sha256:2c8294be238f03fb3fa65b8051057e5b68167f3e21f08008070cf40a7051ba22
+COMPONENT_ARCHIVE_HASH=	sha256:d1fb86e260cfe7da6031f94d2e44c0da55903dbae0a2fa0fae78c91ae1b56f00
 COMPONENT_ARCHIVE_URL=	https://ftp.gnu.org/pub/gnu/gettext/$(COMPONENT_ARCHIVE)
 COMPONENT_FMRI=		text/gnu-gettext
 COMPONENT_CLASSIFICATION=	Development/GNU
@@ -45,6 +46,8 @@ include $(WS_MAKE_RULES)/common.mk
 # Our sed misbehaves during the tests and let msgfilter-2 and msgfilter-4 tests being skipped.
 PATH= $(PATH.gnu)
 
+# libintl collides with illumos-gate
+CONFIGURE_OPTIONS += --disable-nls
 CONFIGURE_OPTIONS += --disable-java
 CONFIGURE_OPTIONS += --disable-libasprintf
 CONFIGURE_OPTIONS += --disable-openmp
