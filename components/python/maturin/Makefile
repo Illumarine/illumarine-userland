@@ -15,15 +15,16 @@
 #
 
 BUILD_STYLE = pyproject
+CARGO_VENDOR = yes
 
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =		maturin
-HUMAN_VERSION =			1.9.1
+HUMAN_VERSION =			1.9.6
 COMPONENT_SUMMARY =		Build and publish crates with pyo3, cffi and uniffi bindings as well as rust binaries as python packages
 COMPONENT_PROJECT_URL =		https://github.com/pyo3/maturin
 COMPONENT_ARCHIVE_HASH =	\
-	sha256:97b52fb19d20c1fdc70e4efdc05d79853a4c9c0051030c93a793cd5181dc4ccd
+	sha256:2c2ae37144811d365509889ed7220b0598487f1278c2441829c3abf56cc6324a
 COMPONENT_LICENSE =		Apache-2.0 OR MIT
 
 # https://github.com/PyO3/maturin/issues/1674
@@ -31,14 +32,11 @@ TEST_STYLE = none
 
 include $(WS_MAKE_RULES)/common.mk
 
-# https://www.illumos.org/issues/15767
-LD_Z_IGNORE=
-
 # Auto-generated dependencies
-PYTHON_REQUIRED_PACKAGES += library/python/setuptools
-PYTHON_REQUIRED_PACKAGES += library/python/setuptools-rust
-PYTHON_REQUIRED_PACKAGES += library/python/tomli
-PYTHON_REQUIRED_PACKAGES += runtime/python
 REQUIRED_PACKAGES += $(GCC_RUNTIME_PKG)
 REQUIRED_PACKAGES += system/library
 REQUIRED_PACKAGES += system/library/math
+REQUIRED_PACKAGES.python += library/python/setuptools
+REQUIRED_PACKAGES.python += library/python/setuptools-rust
+REQUIRED_PACKAGES.python += library/python/tomli
+REQUIRED_PACKAGES.python += runtime/python

@@ -28,9 +28,9 @@ FETCH=$(WS_TOOLS)/userland-fetch
 DEBUG=no
 
 ifeq ($(DEBUG),yes)
-NIGHTLY_OPTIONS=-nCDmpt
+NIGHTLY_OPTIONS=-nDmpL
 else
-NIGHTLY_OPTIONS=-nCmpt
+NIGHTLY_OPTIONS=-nmpL
 endif
 ONNV_BUILDNUM=$(BRANCHID)
 
@@ -102,6 +102,14 @@ $(BUILD_DIR)/$(MACH)/.built: $(SOURCE_DIR)/.patched $(BUILD_DIR)/runtime-perl.p5
 	  echo export PERL_PKGVERS=\"-$(subst .,,$(PERL_VERSION))\"; \
 	  echo export DEP_RUNTIME_PERL="$(BUILD_DIR)/runtime-perl.p5m"; \
 	  echo export BUILDPERL32=\"#\"; \
+	  echo export PYTHON3_VERSION=$(PYTHON_VERSION) ; \
+	  echo export PYTHON3_PKGVERS=-$(subst .,,$(PYTHON_VERSION)) ; \
+	  $(if $(filter-out $(PYTHON_VERSION),$(lastword $(PYTHON_VERSIONS))), \
+	    echo export BUILDPY3b= ; \
+	    echo export PYTHON3b_VERSION=$(lastword $(PYTHON_VERSIONS)) ; \
+	    echo export PYTHON3b_PKGVERS=-$(subst .,,$(lastword $(PYTHON_VERSIONS))) ; \
+	    echo export PYTHON3b_SUFFIX= ; \
+	  ) \
 	  echo export PKGVERS_BRANCH=$(ONNV_BUILDNUM); \
 	  echo export BOOTBANNER1=\"$(DISTRIBUTION_NAME) $(DISTRIBUTION_VERSION) Version ^v ^w-bit\") > \
 	  illumos.sh && \
@@ -265,7 +273,7 @@ print-package-names:
 
 #
 # The build-essential package almost always brings superset of packages needed
-# to build illumos-gate.  The only known exception is described below.
+# to build illumos-gate.  The only known exceptions are described below.
 #
 REQUIRED_PACKAGES += metapackages/build-essential
 
@@ -285,3 +293,13 @@ REQUIRED_PACKAGES += metapackages/build-essential
 # rest of oi-userland.
 #
 REQUIRED_PACKAGES += runtime/perl-$(subst .,,$(PERL_VERSION))
+
+#
+# When we are in the process of changing the default Python version we need to
+# make sure that both the old and the new Python versions are installed during
+# the illumos-gate build.  We need to specify the new version explicitly here
+# because the unversioned runtime/python required by build-essential still
+# points to the old Python runtime version.
+#
+REQUIRED_PACKAGES += \
+	$(if $(filter-out $(PYTHON_VERSION),$(lastword $(PYTHON_VERSIONS))),runtime/python-$(subst .,,$(lastword $(PYTHON_VERSIONS))))

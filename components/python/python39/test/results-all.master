@@ -1,8 +1,8 @@
-401 tests OK.
+400 tests OK.
 
-6 tests failed:
-    test___all__ test_bdb test_distutils test_shutil test_sundry
-    test_venv
+7 tests failed:
+    test__xxsubinterpreters test_bdb test_cmd_line test_distutils
+    test_shutil test_threading test_zoneinfo
 
 18 tests skipped:
     test_epoll test_gdb test_kqueue test_msilib test_readline

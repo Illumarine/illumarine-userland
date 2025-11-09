@@ -30,13 +30,13 @@ ESR =
 # CANDIDATE_NIGHTLY is the nightly release hosted on github
 # USE_HG_REPO is to use mozilla's hg source repo nstead of github
 # Do not define any for final release build.
-# CANDIDATE_BUILD=2
+# CANDIDATE_BUILD=1
 # CANDIDATE_BETA=9
 # CANDIDATE_NIGHTLY=1
 # USE_HG_REPO=1
 
 COMPONENT_NAME =	firefox
-COMPONENT_VERSION =	141.0
+COMPONENT_VERSION =	144.0.2
 COMPONENT_SUMMARY=      Mozilla Firefox Web browser
 COMPONENT_PROJECT_URL =	https://www.mozilla.com/firefox
 COMPONENT_SRC_NAME =	$(COMPONENT_NAME)-$(COMPONENT_VERSION)
@@ -49,7 +49,7 @@ COMPONENT_ARCHIVE =	$(COMPONENT_SRC_NAME)$(ESR).source.tar.xz
 endif
 
 ifdef CANDIDATE_NIGHTLY
-COMPONENT_GIT_HASH=     07d2e10cfad6ad4b8748bc18d7de5862d440f4a1
+COMPONENT_GIT_HASH=     16f979184458f531fce47706d2fa7f2902e75ad3
 COMPONENT_SRC=          firefox-$(COMPONENT_GIT_HASH)
 COMPONENT_ARCHIVE=      $(COMPONENT_GIT_HASH).tar.gz
 COMPONENT_ARCHIVE_URL=  https://github.com/mozilla-firefox/firefox/archive/$(COMPONENT_ARCHIVE)
@@ -73,11 +73,11 @@ COMPONENT_SRC = 	$(COMPONENT_SRC_NAME)
 COMPONENT_ARCHIVE_URL =	$(MOZILLA_FTP)/source/$(COMPONENT_ARCHIVE)
 endif
 
-COMPONENT_ARCHIVE_HASH= sha256:80982a84bb7ca41a67ac073321de96f74e0c25f296d19ca432b11fc2a33535c8
+COMPONENT_ARCHIVE_HASH= sha256:eac4722ed259008d73006c4894c18d2871702c661d14e27505812351df62806b
 COMPONENT_PROJECT_URL = https://www.mozilla.com/en-US/firefox/
 COMPONENT_FMRI=		web/browser/firefox
 
-RUST_VERSION = 1.87.0
+RUST_VERSION = 1.89.0
 
 # TODO: use remote hashfile to verify
 ALLOW_UNVERIFIED_DOWNLOADS=yes
@@ -128,7 +128,7 @@ MOZCONFIG = $(SOURCE_DIR)/mozconfig
 GNU_ARCH= x86_64-unknown-illumos
 
 # Clang 20 does not work with Mozilla patches
-CLANG_VERSION= 19
+# CLANG_VERSION= 19
 
 ifdef DEBUG
 # disable code optimization
@@ -250,8 +250,8 @@ COMPONENT_POST_BUILD_ACTION = \
 
 COMPONENT_POST_INSTALL_ACTION  = \
     for file in `find $(PROTO_DIR)$(FIREFOX_LIBDIR)/firefox/ -name "*.so"`; do \
-        /usr/bin/elfedit -e 'dyn:value -s  RUNPATH "$(GCC_LIBDIR):$(FIREFOX_LIBDIR)/firefox:/usr/lib/mps/amd64"' $$file ; \
-        /usr/bin/elfedit -e 'dyn:value -s  RPATH   "$(GCC_LIBDIR):$(FIREFOX_LIBDIR)/firefox:/usr/lib/mps/amd64"' $$file ; \
+        /usr/bin/elfedit -e 'dyn:value -s  RUNPATH "$(GCC_LIBDIR):$(FIREFOX_LIBDIR)/firefox"' $$file ; \
+        /usr/bin/elfedit -e 'dyn:value -s  RPATH   "$(GCC_LIBDIR):$(FIREFOX_LIBDIR)/firefox"' $$file ; \
     done ; \
     mkdir $(PROTO_DIR)$(FIREFOX_LIBDIR)/firefox/distribution ; \
     $(CP) $(COMPONENT_DIR)/files/distribution.ini $(PROTO_DIR)$(FIREFOX_LIBDIR)/firefox/distribution/distribution.ini ; \

@@ -15,17 +15,18 @@
 #
 
 BUILD_STYLE = pyproject
+USE_COMMON_TEST_MASTER = no
 
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =		docutils
-HUMAN_VERSION =			0.21.2
-COMPONENT_SUMMARY =		docutils - Docutils -- Python Documentation Utilities
+HUMAN_VERSION =			0.22.3
+COMPONENT_SUMMARY =		Docutils -- Python Documentation Utilities
 COMPONENT_PROJECT_URL =		https://docutils.sourceforge.io
 COMPONENT_ARCHIVE_HASH =	\
-	sha256:3a6b18732edf182daa3cd12775bbb338cf5691468f91eeeb109deff6ebfa986f
-COMPONENT_LICENSE =		CC-PDDC AND BSD-3-Clause AND BSD-2-Clause AND ZPL-2.1
-COMPONENT_LICENSE_FILE =	COPYING.txt
+	sha256:21486ae730e4ca9f622677b1412b879af1791efcfba517e4c6f60be543fc8cdd
+COMPONENT_LICENSE =		CC-PDDC AND BSD-3-Clause AND BSD-2-Clause
+COMPONENT_LICENSE_FILE =	COPYING.rst
 
 include $(WS_MAKE_RULES)/common.mk
 
@@ -35,5 +36,5 @@ COMPONENT_TEST_TRANSFORMS += "-e '/^OS:/d'"
 COMPONENT_TEST_TRANSFORMS += "-e '/^Elapsed time:/d'"
 
 # Auto-generated dependencies
-PYTHON_REQUIRED_PACKAGES += library/python/flit-core
-PYTHON_REQUIRED_PACKAGES += runtime/python
+REQUIRED_PACKAGES.python += library/python/flit-core
+REQUIRED_PACKAGES.python += runtime/python

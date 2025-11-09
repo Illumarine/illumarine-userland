@@ -19,11 +19,12 @@ BUILD_STYLE = pyproject
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =		fixtures
-HUMAN_VERSION =			4.2.5
+HUMAN_VERSION =			4.2.6
+COMPONENT_REVISION =		2
 COMPONENT_SUMMARY =		Fixtures, reusable state for writing clean tests and more.
 COMPONENT_PROJECT_URL =		https://github.com/testing-cabal/fixtures
 COMPONENT_ARCHIVE_HASH =	\
-	sha256:646a54035166aacd91b87126592449df1d1d4e376bb32db1816124785900493f
+	sha256:95472b15b145063a672fbe33b1244ccff829fbec97d530d862d26f416d16c90b
 COMPONENT_LICENSE =		Apache-2.0 OR BSD-3-Clause
 
 #
@@ -40,8 +41,8 @@ PYTHON_TEST_BOOTSTRAP = yes
 include $(WS_MAKE_RULES)/common.mk
 
 # Auto-generated dependencies
-PYTHON_REQUIRED_PACKAGES += library/python/hatch-vcs
-PYTHON_REQUIRED_PACKAGES += library/python/hatchling
-PYTHON_REQUIRED_PACKAGES += runtime/python
+REQUIRED_PACKAGES.python += library/python/hatch-vcs
+REQUIRED_PACKAGES.python += library/python/hatchling
+REQUIRED_PACKAGES.python += runtime/python
 TEST_REQUIRED_PACKAGES.python += library/python/docutils
 TEST_REQUIRED_PACKAGES.python += library/python/testtools

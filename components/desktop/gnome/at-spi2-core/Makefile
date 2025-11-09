@@ -19,10 +19,12 @@ USE_DEFAULT_TEST_TRANSFORMS = yes
 
 include ../../../../make-rules/shared-macros.mk
 
+# Odd minor versions are unstable.
+
 COMPONENT_NAME=			at-spi2-core
-HUMAN_VERSION=			2.56.3
+HUMAN_VERSION=			2.58.1
 COMPONENT_SUMMARY=		DBus interface definitions for AT-SPI (Assistive Technology Service Provider Interface)
-COMPONENT_ARCHIVE_HASH=		sha256:0e41e1fc6a1961b38b4f9c0bea64bad30efff75949b7cdb988d2f2fdab72267a
+COMPONENT_ARCHIVE_HASH=		sha256:7f374a6a38cd70ff4b32c9d3a0310bfa804d946fed4c9e69a7d49facdcb95e9c
 COMPONENT_FMRI=			gnome/accessibility/at-spi2-core
 COMPONENT_CLASSIFICATION=	Desktop (GNOME)/Libraries
 COMPONENT_LICENSE=		LGPL-2.1-only
@@ -34,11 +36,13 @@ COMPONENT_SUMMARY.$(COMPONENT_NAME)-32 =	$(COMPONENT_SUMMARY) (32-bit)
 include $(WS_MAKE_RULES)/gnome.mk
 include $(WS_MAKE_RULES)/common.mk
 
+# We do not need the systemd support (obviously)
+CONFIGURE_OPTIONS += -Duse_systemd=false
 # There is no 32-bit introspection
 CONFIGURE_OPTIONS.32 += -Dintrospection=disabled
 
-# We do not need the systemd service file (obviously)
-COMPONENT_POST_INSTALL_ACTION += $(RM) $(PROTOUSRLIBDIR)/systemd/user/at-spi-dbus-bus.service ;
+# to get declaration of timersub()
+CPPFLAGS += -D__EXTENSIONS__
 
 # Drop etc files installed for 32-bit build
 COMPONENT_POST_INSTALL_ACTION.32 += $(RM) -r $(PROTOETCDIR) ;
@@ -46,6 +50,13 @@ COMPONENT_POST_INSTALL_ACTION.32 += $(RM) -r $(PROTOETCDIR) ;
 COMPONENT_POST_INSTALL_ACTION.32 += $(RM) -r $(PROTOUSRINCDIR) ;
 # Drop share files installed for 32-bit build
 COMPONENT_POST_INSTALL_ACTION.32 += $(RM) -r $(PROTOUSRSHAREDIR) ;
+# Drop Python support installed for 32-bit build
+COMPONENT_POST_INSTALL_ACTION.32 += $(RM) -r $(PROTO_DIR)/$(PYTHON_DIR) ;
+
+# Move all modules from default site-packages directory to vendor-packages
+# directory where we place modules shipped by the OS but not included in the
+# core Python distribution.
+COMPONENT_POST_INSTALL_ACTION.64 += $(MV) $(PROTO_DIR)/$(PYTHON_DIR)/site-packages $(PROTO_DIR)/$(PYTHON_LIB) ;
 
 # Testing needs dbus up and running
 TEST_REQUIRED_PACKAGES += system/library/dbus/dbus-x11
@@ -58,6 +69,7 @@ REQUIRED_PACKAGES += library/glib2
 REQUIRED_PACKAGES += library/glib2/32
 REQUIRED_PACKAGES += system/library
 REQUIRED_PACKAGES += system/library/libdbus
+REQUIRED_PACKAGES += system/library/libdbus/32
 REQUIRED_PACKAGES += x11/library/libx11
 REQUIRED_PACKAGES += x11/library/libxi
 REQUIRED_PACKAGES += x11/library/libxtst

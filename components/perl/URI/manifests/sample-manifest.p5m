@@ -39,6 +39,8 @@ file path=usr/perl5/$(PERLVER)/man/man3perl/URI::icaps.3perl
 file path=usr/perl5/$(PERLVER)/man/man3perl/URI::ldap.3perl
 file path=usr/perl5/$(PERLVER)/man/man3perl/URI::otpauth.3perl
 file path=usr/perl5/$(PERLVER)/man/man3perl/URI::smb.3perl
+file path=usr/perl5/$(PERLVER)/man/man3perl/URI::ws.3perl
+file path=usr/perl5/$(PERLVER)/man/man3perl/URI::wss.3perl
 file path=usr/perl5/vendor_perl/$(PERLVER)/URI.pm
 file path=usr/perl5/vendor_perl/$(PERLVER)/URI/Escape.pm
 file path=usr/perl5/vendor_perl/$(PERLVER)/URI/Heuristic.pm
@@ -47,6 +49,7 @@ file path=usr/perl5/vendor_perl/$(PERLVER)/URI/QueryParam.pm
 file path=usr/perl5/vendor_perl/$(PERLVER)/URI/Split.pm
 file path=usr/perl5/vendor_perl/$(PERLVER)/URI/URL.pm
 file path=usr/perl5/vendor_perl/$(PERLVER)/URI/WithBase.pm
+file path=usr/perl5/vendor_perl/$(PERLVER)/URI/_emailauth.pm
 file path=usr/perl5/vendor_perl/$(PERLVER)/URI/_foreign.pm
 file path=usr/perl5/vendor_perl/$(PERLVER)/URI/_generic.pm
 file path=usr/perl5/vendor_perl/$(PERLVER)/URI/_idna.pm
@@ -96,6 +99,7 @@ file path=usr/perl5/vendor_perl/$(PERLVER)/URI/sftp.pm
 file path=usr/perl5/vendor_perl/$(PERLVER)/URI/sip.pm
 file path=usr/perl5/vendor_perl/$(PERLVER)/URI/sips.pm
 file path=usr/perl5/vendor_perl/$(PERLVER)/URI/smb.pm
+file path=usr/perl5/vendor_perl/$(PERLVER)/URI/smtp.pm
 file path=usr/perl5/vendor_perl/$(PERLVER)/URI/snews.pm
 file path=usr/perl5/vendor_perl/$(PERLVER)/URI/ssh.pm
 file path=usr/perl5/vendor_perl/$(PERLVER)/URI/telnet.pm
@@ -103,6 +107,8 @@ file path=usr/perl5/vendor_perl/$(PERLVER)/URI/tn3270.pm
 file path=usr/perl5/vendor_perl/$(PERLVER)/URI/urn.pm
 file path=usr/perl5/vendor_perl/$(PERLVER)/URI/urn/isbn.pm
 file path=usr/perl5/vendor_perl/$(PERLVER)/URI/urn/oid.pm
+file path=usr/perl5/vendor_perl/$(PERLVER)/URI/ws.pm
+file path=usr/perl5/vendor_perl/$(PERLVER)/URI/wss.pm
 
 # perl modules are unusable without perl runtime binary
 depend type=require fmri=__TBD pkg.debug.depend.file=perl \

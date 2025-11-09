@@ -19,10 +19,10 @@ BUILD_STYLE = pyproject
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =		setuptools_scm
-HUMAN_VERSION =			8.3.1
+HUMAN_VERSION =			9.2.2
 COMPONENT_SUMMARY =		the blessed package to manage your versions by scm tags
 COMPONENT_ARCHIVE_HASH =	\
-	sha256:3d555e92b75dacd037d32bafdf94f97af51ea29ae8c7b234cf94b7a5bd242a63
+	sha256:1c674ab4665686a0887d7e24c03ab25f24201c213e82ea689d2f3e169ef7ef57
 COMPONENT_LICENSE =		MIT
 COMPONENT_LICENSE_FILE =	LICENSE
 
@@ -31,6 +31,7 @@ COMPONENT_LICENSE_FILE =	LICENSE
 # - flit_scm (test bootstrap)
 # - hatch_vcs (test bootstrap)
 # - importlib_metadata
+# - iniconfig (test bootstrap)
 # - pluggy (test bootstrap)
 # - pytest (test bootstrap)
 # - zipp
@@ -41,15 +42,23 @@ include $(WS_MAKE_RULES)/common.mk
 # Random directory name
 COMPONENT_TEST_TRANSFORMS += "-e 's|/tmp/.*/garbage[^/]*|\$$(TMPDIR)|'"
 
+# https://github.com/pypa/setuptools-scm/issues/1204
+PYTEST_ADDOPTS += --deselect testing/test_functions.py::test_dump_version_mypy
+
 # Auto-generated dependencies
-PYTHON_REQUIRED_PACKAGES += library/python/importlib-metadata
-PYTHON_REQUIRED_PACKAGES += library/python/packaging
-PYTHON_REQUIRED_PACKAGES += library/python/setuptools
-PYTHON_REQUIRED_PACKAGES += library/python/tomli
-PYTHON_REQUIRED_PACKAGES += library/python/typing-extensions
-PYTHON_REQUIRED_PACKAGES += runtime/python
+REQUIRED_PACKAGES.python += library/python/packaging
+REQUIRED_PACKAGES.python += library/python/setuptools
+REQUIRED_PACKAGES.python += library/python/tomli
+REQUIRED_PACKAGES.python += library/python/typing-extensions
+REQUIRED_PACKAGES.python += runtime/python
 TEST_REQUIRED_PACKAGES.python += library/python/build
+TEST_REQUIRED_PACKAGES.python += library/python/flake8
+TEST_REQUIRED_PACKAGES.python += library/python/mypy
+TEST_REQUIRED_PACKAGES.python += library/python/pip
 TEST_REQUIRED_PACKAGES.python += library/python/pytest
+TEST_REQUIRED_PACKAGES.python += library/python/pytest-cov
+TEST_REQUIRED_PACKAGES.python += library/python/pytest-timeout
+TEST_REQUIRED_PACKAGES.python += library/python/pytest-xdist
 TEST_REQUIRED_PACKAGES.python += library/python/rich
 TEST_REQUIRED_PACKAGES.python += library/python/typing-extensions
 TEST_REQUIRED_PACKAGES.python += library/python/wheel

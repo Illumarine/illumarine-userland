@@ -19,11 +19,11 @@ BUILD_STYLE = pyproject
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =		coverage
-HUMAN_VERSION =			7.9.1
+HUMAN_VERSION =			7.10.7
 COMPONENT_SUMMARY =		Code coverage measurement for Python
 COMPONENT_PROJECT_URL =		https://github.com/nedbat/coveragepy
 COMPONENT_ARCHIVE_HASH =	\
-	sha256:6cf43c78c4282708a28e466316935ec7489a9c487518a77fa68f716c67909cec
+	sha256:f4ab143ab113be368a3e9b795f9cd7906c5ef407d6173fe9675a902e1fffc239
 COMPONENT_LICENSE =		Apache-2.0
 COMPONENT_LICENSE_FILE =	LICENSE.txt
 
@@ -37,9 +37,9 @@ COMPONENT_POST_TEST_ACTION += $(RM) $(PROTO_DIR)/$(PYTHON_LIB)/foo.pth
 TOX_POSARGS += -v
 
 # Auto-generated dependencies
-PYTHON_REQUIRED_PACKAGES += library/python/setuptools
-PYTHON_REQUIRED_PACKAGES += runtime/python
 REQUIRED_PACKAGES += system/library
+REQUIRED_PACKAGES.python += library/python/setuptools
+REQUIRED_PACKAGES.python += runtime/python
 TEST_REQUIRED_PACKAGES.python += library/python/cffi
 TEST_REQUIRED_PACKAGES.python += library/python/colorama
 TEST_REQUIRED_PACKAGES.python += library/python/flaky

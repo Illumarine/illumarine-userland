@@ -15,15 +15,16 @@
 #
 
 BUILD_STYLE = pyproject
+USE_COMMON_TEST_MASTER = no
 
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =		pyfakefs
-HUMAN_VERSION =			5.9.1
+HUMAN_VERSION =			5.10.2
 COMPONENT_SUMMARY =		Implements a fake file system that mocks the Python file system modules.
 COMPONENT_PROJECT_URL =		https://github.com/pytest-dev/pyfakefs
 COMPONENT_ARCHIVE_HASH =	\
-	sha256:ca02a1441dc77d7512bebfe4224b32f2127e83c45672f5fe2c02c33d4284bc70
+	sha256:8ae0e5421e08de4e433853a4609a06a1835f4bc2a3ce13b54f36713a897474ba
 COMPONENT_LICENSE =		Apache-2.0
 COMPONENT_LICENSE_FILE =	COPYING
 
@@ -36,6 +37,6 @@ COMPONENT_TEST_TRANSFORMS += "-e 's|\(/tmp/tmp\).\{8\}|\1XXXXXXXX|'"
 COMPONENT_TEST_TRANSFORMS += "-e 's/\(KeyError: '\"'\"'tmp\).\{8\}'\"'\"'/\1XXXXXXXX'\"'\"'/'"
 
 # Auto-generated dependencies
-PYTHON_REQUIRED_PACKAGES += library/python/setuptools
-PYTHON_REQUIRED_PACKAGES += runtime/python
+REQUIRED_PACKAGES.python += library/python/setuptools
+REQUIRED_PACKAGES.python += runtime/python
 TEST_REQUIRED_PACKAGES.python += library/python/pytest

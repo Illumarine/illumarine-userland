@@ -19,11 +19,11 @@ BUILD_STYLE = pyproject
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =		yarl
-HUMAN_VERSION =			1.20.0
+HUMAN_VERSION =			1.22.0
 COMPONENT_SUMMARY =		Yet another URL library
 COMPONENT_PROJECT_URL =		https://github.com/aio-libs/yarl
 COMPONENT_ARCHIVE_HASH =	\
-	sha256:686d51e51ee5dfe62dec86e4866ee0e9ed66df700d55c828a615640adc885307
+	sha256:bebf8557577d4401ba8bd9ff33906f1376c877aa78d1fe216ad01b4d6745af71
 COMPONENT_LICENSE =		Apache-2.0
 COMPONENT_LICENSE_FILE =	LICENSE
 
@@ -60,15 +60,15 @@ COMPONENT_POST_TEST_ACTION +=	$(MV) $(@D)/yarl-RENAMED $(@D)/yarl ;
 COMPONENT_TEST_TRANSFORMS += "-e 's|/tmp/.*/garbage[^/]*|\$$(TMPDIR)|'"
 
 # Auto-generated dependencies
-PYTHON_REQUIRED_PACKAGES += library/python/cython
-PYTHON_REQUIRED_PACKAGES += library/python/expandvars
-PYTHON_REQUIRED_PACKAGES += library/python/idna
-PYTHON_REQUIRED_PACKAGES += library/python/multidict
-PYTHON_REQUIRED_PACKAGES += library/python/propcache
-PYTHON_REQUIRED_PACKAGES += library/python/setuptools
-PYTHON_REQUIRED_PACKAGES += library/python/tomli
-PYTHON_REQUIRED_PACKAGES += runtime/python
 REQUIRED_PACKAGES += system/library
+REQUIRED_PACKAGES.python += library/python/cython
+REQUIRED_PACKAGES.python += library/python/expandvars
+REQUIRED_PACKAGES.python += library/python/idna
+REQUIRED_PACKAGES.python += library/python/multidict
+REQUIRED_PACKAGES.python += library/python/propcache
+REQUIRED_PACKAGES.python += library/python/setuptools
+REQUIRED_PACKAGES.python += library/python/tomli
+REQUIRED_PACKAGES.python += runtime/python
 TEST_REQUIRED_PACKAGES.python += library/python/covdefaults
 TEST_REQUIRED_PACKAGES.python += library/python/cython
 TEST_REQUIRED_PACKAGES.python += library/python/hypothesis

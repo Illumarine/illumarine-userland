@@ -14,16 +14,17 @@
 #   $WS_TOOLS/python-integrate-project xmltodict
 #
 
-BUILD_STYLE = setup.py
+BUILD_STYLE = pyproject
 
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =		xmltodict
-HUMAN_VERSION =			0.14.2
+HUMAN_VERSION =			1.0.2
+COMPONENT_REVISION =		1
 COMPONENT_SUMMARY =		Makes working with XML feel like you are working with JSON
 COMPONENT_PROJECT_URL =		https://github.com/martinblech/xmltodict
 COMPONENT_ARCHIVE_HASH =	\
-	sha256:201e7c28bb210e374999d1dde6382923ab0ed1a8a5faeece48ab525b7810a553
+	sha256:54306780b7c2175a3967cad1db92f218207e5bc1aba697d887807c0fb68b7649
 COMPONENT_LICENSE =		MIT
 COMPONENT_LICENSE_FILE =	LICENSE
 
@@ -32,4 +33,6 @@ TEST_STYLE = pytest
 include $(WS_MAKE_RULES)/common.mk
 
 # Auto-generated dependencies
-PYTHON_REQUIRED_PACKAGES += runtime/python
+REQUIRED_PACKAGES.python += library/python/setuptools
+REQUIRED_PACKAGES.python += library/python/wheel
+REQUIRED_PACKAGES.python += runtime/python

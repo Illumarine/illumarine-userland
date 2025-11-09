@@ -19,23 +19,27 @@ BUILD_STYLE = pyproject
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =		marshmallow
-HUMAN_VERSION =			4.0.0
+HUMAN_VERSION =			4.1.0
 COMPONENT_SUMMARY =		A lightweight library for converting complex datatypes to and from native Python datatypes.
 COMPONENT_ARCHIVE_HASH =	\
-	sha256:3b6e80aac299a7935cfb97ed01d1854fb90b5079430969af92118ea1b12a8d55
+	sha256:daa9862f74e2f7864980d25c29b4ea72944cde48aa17537e3bd5797a4ae62d71
 COMPONENT_LICENSE =		MIT
 COMPONENT_LICENSE_FILE =	LICENSE
 
+# Python 3.9 is not supported by marshmallow >= 4.1.0
+PYTHON_VERSIONS := $(filter-out 3.9,$(PYTHON_VERSIONS))
+
 include $(WS_MAKE_RULES)/common.mk
+
+# https://github.com/marshmallow-code/marshmallow/issues/2862
+PYTEST_ADDOPTS += --deselect tests/test_utils.py::test_from_timestamp_with_overflow_value
 
 # Normalize timetstamps that change with every run
 COMPONENT_TEST_TRANSFORMS += "-e 's/\[..-..-.... ..:..:..\]/[XX-XX-XXXX XX:XX:XX]/'"
 COMPONENT_TEST_TRANSFORMS += "-e 's/\[..:..:.. ....-..-..\]/[XX:XX:XX XXXX-XX-XX]/'"
 
 # Auto-generated dependencies
-PYTHON_REQUIRED_PACKAGES += library/python/backports-datetime-fromisoformat
-PYTHON_REQUIRED_PACKAGES += library/python/flit-core
-PYTHON_REQUIRED_PACKAGES += library/python/typing-extensions
-PYTHON_REQUIRED_PACKAGES += runtime/python
+REQUIRED_PACKAGES.python += library/python/flit-core
+REQUIRED_PACKAGES.python += runtime/python
 TEST_REQUIRED_PACKAGES.python += library/python/pytest
 TEST_REQUIRED_PACKAGES.python += library/python/simplejson

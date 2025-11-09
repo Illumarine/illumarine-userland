@@ -30,14 +30,15 @@ USE_PARALLEL_BUILD= yes
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME= erlang
-COMPONENT_VERSION= 28.0.2
+COMPONENT_VERSION= 28.1.1
+COMPONENT_REVISION= 1
 COMPONENT_VERSION_SHORT= $(shell echo $(COMPONENT_VERSION) | cut -d'.' -f1-2)
 COMPONENT_SUMMARY= Erlang programming language and OTP libraries
 COMPONENT_PROJECT_URL= https://erlang.org/
 COMPONENT_SRC_NAME= otp_src
 COMPONENT_SRC= $(COMPONENT_SRC_NAME)_$(COMPONENT_VERSION)
 COMPONENT_ARCHIVE= ${COMPONENT_SRC}.tar.gz
-COMPONENT_ARCHIVE_HASH= sha256:ce43dc8a29ad6bc1b6dbfc97f053d2e850b4a4c290eca065058d6b33ce476db5
+COMPONENT_ARCHIVE_HASH= sha256:03e1b26e846b2cc1b49271656da6d5ecf4d5f4c2e34224d869a23c61a3d5660a
 COMPONENT_ARCHIVE_URL= https://github.com/erlang/otp/releases/download/OTP-${COMPONENT_VERSION}/${COMPONENT_ARCHIVE}
 COMPONENT_FMRI= runtime/erlang
 COMPONENT_CLASSIFICATION= Development/Other Languages
@@ -48,7 +49,7 @@ COMPONENT_LICENSE_FILE= LICENSE.txt
 COMPONENT_NAME_1= otp_doc_man
 COMPONENT_SRC_1= $(COMPONENT_NAME_1)_$(COMPONENT_VERSION)
 COMPONENT_ARCHIVE_1= $(COMPONENT_SRC_1).tar.gz
-COMPONENT_ARCHIVE_HASH_1= sha256:4b8eb77760d5caaa3dec2bd648676fc90499fe479a1ff693ef8f3e6dd745fd05
+COMPONENT_ARCHIVE_HASH_1= sha256:90a7e5d84285d1b3487a869edeacba16dd0d3a6cdd33c0f910949a256c7c6c81
 COMPONENT_ARCHIVE_URL_1= https://github.com/erlang/otp/releases/download/OTP-$(COMPONENT_VERSION)/$(COMPONENT_ARCHIVE_1)
 UNPACK_ARGS_1= -r $(COMPONENT_SRC_1)
 
@@ -66,19 +67,10 @@ CXXFLAGS += -finline-functions -funroll-loops -fno-exceptions -fno-rtti
 CONFIGURE_OPTIONS += --enable-smp-support
 CONFIGURE_OPTIONS += --enable-threads
 CONFIGURE_OPTIONS += --with-ssl=$(OPENSSL_PREFIX)
-CONFIGURE_OPTIONS += --with-ssl-lib-subdir=/amd64
+CONFIGURE_OPTIONS += --with-ssl-lib-subdir=/$(MACH64)
 CONFIGURE_OPTIONS += --enable-dynamic-ssl-lib
 CONFIGURE_OPTIONS += --disable-silent-rules
 CONFIGURE_OPTIONS += --without-javac
-
-# The HiPE portion is a bit sensitive, and only seems to work 64-bit on
-# amd64 (thus the variant.arch tagging in erlang.p5m). erts/config.log
-# can be very interesting if issues occur.
-CONFIGURE_OPTIONS.i386  = --enable-hipe
-CONFIGURE_OPTIONS.sparc = --disable-hipe
-# Disable kernel poll on sparc to avoid hangs in erl_child_setup (bug 31443512).
-CONFIGURE_OPTIONS.sparc += --disable-kernel-poll
-CONFIGURE_OPTIONS += $(CONFIGURE_OPTIONS.$(MACH))
 
 # Erlang doesn't appear to like ASLR: it uses mmap() with MAP_FIXED, and
 # makes assumptions about memory layout that aren't true on Solaris x86,

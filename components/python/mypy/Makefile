@@ -19,11 +19,11 @@ BUILD_STYLE = pyproject
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =		mypy
-HUMAN_VERSION =			1.17.0
+HUMAN_VERSION =			1.18.2
 COMPONENT_SUMMARY =		Optional static typing for Python
 COMPONENT_PROJECT_URL =		https://www.mypy-lang.org/
 COMPONENT_ARCHIVE_HASH =	\
-	sha256:e5d7ccc08ba089c06e2f5629c660388ef1fee708444f1dee0b9203fa031dee03
+	sha256:06a398102a5f203d7477b2923dda3634c36727fa5c237d8f859ef90c42a9924b
 COMPONENT_LICENSE =		MIT AND PSF-2.0
 COMPONENT_LICENSE_FILE =	LICENSE
 
@@ -46,14 +46,14 @@ TEST_CONFLICTING_PACKAGES.python += library/python/types-pytz
 COMPONENT_TEST_TRANSFORMS += "-e 's|/tmp/.*/garbage[^/]*|\$$(TMPDIR)|'"
 
 # Auto-generated dependencies
-PYTHON_REQUIRED_PACKAGES += library/python/mypy-extensions
-PYTHON_REQUIRED_PACKAGES += library/python/pathspec
-PYTHON_REQUIRED_PACKAGES += library/python/setuptools
-PYTHON_REQUIRED_PACKAGES += library/python/tomli
-PYTHON_REQUIRED_PACKAGES += library/python/types-psutil
-PYTHON_REQUIRED_PACKAGES += library/python/types-setuptools
-PYTHON_REQUIRED_PACKAGES += library/python/typing-extensions
-PYTHON_REQUIRED_PACKAGES += runtime/python
+REQUIRED_PACKAGES.python += library/python/mypy-extensions
+REQUIRED_PACKAGES.python += library/python/pathspec
+REQUIRED_PACKAGES.python += library/python/setuptools
+REQUIRED_PACKAGES.python += library/python/tomli
+REQUIRED_PACKAGES.python += library/python/types-psutil
+REQUIRED_PACKAGES.python += library/python/types-setuptools
+REQUIRED_PACKAGES.python += library/python/typing-extensions
+REQUIRED_PACKAGES.python += runtime/python
 TEST_REQUIRED_PACKAGES.python += library/python/attrs
 TEST_REQUIRED_PACKAGES.python += library/python/filelock
 TEST_REQUIRED_PACKAGES.python += library/python/lxml

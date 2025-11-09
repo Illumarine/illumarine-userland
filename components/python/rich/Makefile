@@ -19,13 +19,13 @@ BUILD_STYLE = pyproject
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =		rich
-HUMAN_VERSION =			14.0.0
+HUMAN_VERSION =			14.2.0
 COMPONENT_SUMMARY =		Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal
 COMPONENT_PROJECT_URL =		https://github.com/Textualize/rich
 COMPONENT_ARCHIVE_URL =		\
 	https://github.com/Textualize/rich/archive/refs/tags/v$(HUMAN_VERSION).tar.gz
 COMPONENT_ARCHIVE_HASH =	\
-	sha256:0a1a45eb997b6fd1b133192b9590c9de9bd7fe7e2948540b4433d4ba413f331c
+	sha256:589ddd6a66adbffb9d0e406da9d529a886d2c040177da4b72fad4a8563ff5afc
 COMPONENT_LICENSE =		MIT
 COMPONENT_LICENSE_FILE =	LICENSE
 
@@ -40,13 +40,13 @@ PYTEST_ADDOPTS += --deselect test_syntax.py::test_blank_lines
 PYTEST_ADDOPTS += --deselect test_syntax.py::test_python_render_simple_indent_guides
 
 # Auto-generated dependencies
-PYTHON_REQUIRED_PACKAGES += library/python/markdown-it-py
-PYTHON_REQUIRED_PACKAGES += library/python/poetry-core
-PYTHON_REQUIRED_PACKAGES += library/python/pygments
-PYTHON_REQUIRED_PACKAGES += library/python/typing-extensions
-PYTHON_REQUIRED_PACKAGES += runtime/python
+REQUIRED_PACKAGES.python += library/python/markdown-it-py
+REQUIRED_PACKAGES.python += library/python/poetry-core
+REQUIRED_PACKAGES.python += library/python/pygments
+REQUIRED_PACKAGES.python += runtime/python
 TEST_REQUIRED_PACKAGES.python += library/python/attrs
 TEST_REQUIRED_PACKAGES.python += library/python/black
 TEST_REQUIRED_PACKAGES.python += library/python/mypy
 TEST_REQUIRED_PACKAGES.python += library/python/pytest
 TEST_REQUIRED_PACKAGES.python += library/python/pytest-cov
+TEST_REQUIRED_PACKAGES.python += library/python/typing-extensions

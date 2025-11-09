@@ -19,18 +19,18 @@ BUILD_STYLE = makemaker
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =		Time-Piece
-HUMAN_VERSION =			1.36
+HUMAN_VERSION =			1.40
 COMPONENT_SUMMARY =		Object Oriented time objects
 COMPONENT_CPAN_AUTHOR =		ESAYM
 COMPONENT_ARCHIVE_HASH =	\
-	sha256:483b200aa752b8bacd7267714f990e94b13ccaa19e6b68a309f61b26e730298d
+	sha256:d079c5beadd76e2521bdb5f215f15c0c63b95ca2181066778454afb06bdb1d67
 COMPONENT_LICENSE =		BSD-3-Clause
 COMPONENT_LICENSE_FILE =	LICENSE
 
 include $(WS_MAKE_RULES)/common.mk
 
 # Auto-generated dependencies
-PERL_REQUIRED_PACKAGES += library/perl-5/extutils-makemaker
-PERL_REQUIRED_PACKAGES += library/perl-5/scalar-list-utils
-PERL_REQUIRED_PACKAGES += runtime/perl
 REQUIRED_PACKAGES += system/library
+REQUIRED_PACKAGES.perl += library/perl-5/extutils-makemaker
+REQUIRED_PACKAGES.perl += library/perl-5/scalar-list-utils
+REQUIRED_PACKAGES.perl += runtime/perl

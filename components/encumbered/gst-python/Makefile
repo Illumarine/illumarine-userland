@@ -19,13 +19,13 @@ USE_DEFAULT_TEST_TRANSFORMS = yes
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME=		gst-python
-COMPONENT_VERSION=	1.26.4
+COMPONENT_VERSION=	1.26.6
 COMPONENT_SUMMARY=	Python bindings for the GStreamer streaming media framework
 COMPONENT_PROJECT_URL=	https://gstreamer.freedesktop.org
 COMPONENT_SRC=		$(COMPONENT_NAME)-$(COMPONENT_VERSION)
 COMPONENT_ARCHIVE=	$(COMPONENT_SRC).tar.xz
-COMPONENT_ARCHIVE_HASH=	sha256:b6038aa635b29ecb9e8c1ce8dabb64a30d752a4172f42b2fb511a2286d6365ba
 COMPONENT_ARCHIVE_URL=	$(COMPONENT_PROJECT_URL)/src/$(COMPONENT_NAME)/$(COMPONENT_ARCHIVE)
+COMPONENT_ARCHIVE_HASH=	sha256:a4b5bfe039b7267fe8cdd48d106ab20cf88cda600f800d84f3d07724079edf1f
 COMPONENT_SIG_URL=	$(COMPONENT_ARCHIVE_URL).asc
 COMPONENT_CLASSIFICATION= Development/Python
 COMPONENT_FMRI=	library/python/python-gst
@@ -47,8 +47,8 @@ CONFIGURE_OPTIONS += -Dpython.platlibdir=$(PYTHON_VENDOR_PACKAGES)
 PYTHON_REQUIRED_PACKAGES += library/python/pygobject
 
 # Auto-generated dependencies
-PYTHON_REQUIRED_PACKAGES += runtime/python
 REQUIRED_PACKAGES += library/audio/gstreamer
 REQUIRED_PACKAGES += library/audio/gstreamer/plugin/bad
 REQUIRED_PACKAGES += library/glib2
 REQUIRED_PACKAGES += system/library
+REQUIRED_PACKAGES.python += runtime/python

@@ -224,6 +224,7 @@ $(PROTO_DIR)$(PYTHON_DIR)/vendor-packages/persistent/tests/test_mapping.py:319: 
  test_repr_oid_raises_exception_no_jar (persistent.tests.test_persistence.CPersistentTests)
  test_set__p_changed_w_broken_jar (persistent.tests.test_persistence.CPersistentTests)
  test_setattr_in_subclass_is_not_called_creating_an_instance (persistent.tests.test_persistence.CPersistentTests)
+ test_short_odd_oid (persistent.tests.test_persistence.CPersistentTests)
  test_w_alternate_metaclass (persistent.tests.test_persistence.CPersistentTests)
  test_w_diamond_inheritance (persistent.tests.test_persistence.CPersistentTests)
  test_64bit_oid (persistent.tests.test_persistence.PyPersistentTests)
@@ -409,6 +410,7 @@ $(PROTO_DIR)$(PYTHON_DIR)/vendor-packages/persistent/tests/test_mapping.py:319: 
  test_repr_oid_raises_exception_no_jar (persistent.tests.test_persistence.PyPersistentTests)
  test_set__p_changed_w_broken_jar (persistent.tests.test_persistence.PyPersistentTests)
  test_setattr_in_subclass_is_not_called_creating_an_instance (persistent.tests.test_persistence.PyPersistentTests)
+ test_short_odd_oid (persistent.tests.test_persistence.PyPersistentTests)
  test_w_alternate_metaclass (persistent.tests.test_persistence.PyPersistentTests)
  test_w_diamond_inheritance (persistent.tests.test_persistence.PyPersistentTests)
  test___delitem___non_string_oid_raises_TypeError (persistent.tests.test_picklecache.CPickleCacheTests)
@@ -616,7 +618,7 @@ $(PROTO_DIR)$(PYTHON_DIR)/vendor-packages/persistent/tests/test_mapping.py:319: 
  test___hash___wo_target (persistent.tests.test_wref.WeakRefTests)
  test_ctor_target_w_jar (persistent.tests.test_wref.WeakRefTests)
  test_ctor_target_wo_jar (persistent.tests.test_wref.WeakRefTests)
-  Ran 610 tests with 0 failures, 0 errors and 6 skipped.
+  Ran 612 tests with 0 failures, 0 errors and 6 skipped.
 Tearing down left over layers:
   Tear down zope.testrunner.layer.UnitTests.
 py$(PYV): commands[1]> python -m sphinx.cmd.build -b doctest -d $(@D)/.tox/py$(PYV)/.cache/doctrees docs $(@D)/.tox/py$(PYV)/.cache/doctest

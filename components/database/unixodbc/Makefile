@@ -29,14 +29,13 @@ include ../../../make-rules/shared-macros.mk
 PATH= $(PATH.illumos)
 
 COMPONENT_NAME=		unixODBC
-COMPONENT_VERSION=	2.3.12
-COMPONENT_REVISION=	2
+COMPONENT_VERSION=	2.3.14
 COMPONENT_SUMMARY=	The UnixODBC Subsystem and SDK
 COMPONENT_DESCRIPTION= An Open Source implementation of the ODBC Standard providing a Library Framework for Software Development
 COMPONENT_SRC=		$(COMPONENT_NAME)-$(COMPONENT_VERSION)
 COMPONENT_PROJECT_URL=	https://www.unixodbc.org/
 COMPONENT_ARCHIVE=	$(COMPONENT_SRC).tar.gz
-COMPONENT_ARCHIVE_HASH= sha256:f210501445ce21bf607ba51ef8c125e10e22dffdffec377646462df5f01915ec
+COMPONENT_ARCHIVE_HASH= sha256:4e2814de3e01fc30b0b9f75e83bb5aba91ab0384ee951286504bb70205524771
 COMPONENT_ARCHIVE_URL=	ftp://ftp.unixodbc.org/pub/unixODBC/$(COMPONENT_ARCHIVE)
 COMPONENT_FMRI=		library/unixodbc
 COMPONENT_CLASSIFICATION=	Development/Databases

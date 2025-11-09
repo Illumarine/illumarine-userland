@@ -19,11 +19,12 @@ BUILD_STYLE = pyproject
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =		dirty_equals
-HUMAN_VERSION =			0.9.0
+HUMAN_VERSION =			0.10.0
+COMPONENT_REVISION =		1
 COMPONENT_SUMMARY =		Doing dirty (but extremely useful) things with equals.
 COMPONENT_PROJECT_URL =		https://github.com/samuelcolvin/dirty-equals
 COMPONENT_ARCHIVE_HASH =	\
-	sha256:17f515970b04ed7900b733c95fd8091f4f85e52f1fb5f268757f25c858eb1f7b
+	sha256:623d7a07c5ba437f1a834c6246d1e3eb97238ca70331c61a499d9aabd757b899
 COMPONENT_LICENSE =		MIT
 COMPONENT_LICENSE_FILE =	LICENSE
 
@@ -45,8 +46,7 @@ include $(WS_MAKE_RULES)/common.mk
 
 # This project does not support tox so we need to provide test requirements
 # manually.
-TEST_REQUIREMENTS += requirements/tests.in
-TEST_REQUIREMENTS_EXTRAS += pydantic
+TEST_REQUIREMENTS_PEP735 += dev
 
 # We do not have pytest-examples packaged yet.
 PYTEST_ADDOPTS += --ignore tests/test_docs.py
@@ -55,13 +55,16 @@ PYTEST_ADDOPTS += --ignore tests/test_docs.py
 # See also https://github.com/samuelcolvin/dirty-equals/issues/97
 COMPONENT_TEST_ENV += TZ=UTC
 
+# Normalize random uuids
+COMPONENT_TEST_TRANSFORMS += "-e 's/\[[0-9a-f]\{8\}-[0-9a-f]\{4\}-[0-9a-f]\{4\}-[0-9a-f]\{4\}-[0-9a-f]\{12\}-/[\$$(UUID)-/g'"
+
 # Auto-generated dependencies
-PYTHON_REQUIRED_PACKAGES += library/python/hatchling
-PYTHON_REQUIRED_PACKAGES += runtime/python
+REQUIRED_PACKAGES.python += library/python/hatchling
+REQUIRED_PACKAGES.python += runtime/python
 TEST_REQUIRED_PACKAGES.python += library/python/coverage
+TEST_REQUIRED_PACKAGES.python += library/python/mypy
 TEST_REQUIRED_PACKAGES.python += library/python/packaging
 TEST_REQUIRED_PACKAGES.python += library/python/pydantic
 TEST_REQUIRED_PACKAGES.python += library/python/pytest
-TEST_REQUIRED_PACKAGES.python += library/python/pytest-mock
-TEST_REQUIRED_PACKAGES.python += library/python/pytz
 TEST_REQUIRED_PACKAGES.python += library/python/tomli
+TEST_REQUIRED_PACKAGES.python += library/python/types-pytz

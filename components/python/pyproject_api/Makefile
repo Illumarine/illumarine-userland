@@ -19,11 +19,11 @@ BUILD_STYLE = pyproject
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =		pyproject_api
-HUMAN_VERSION =			1.9.1
+HUMAN_VERSION =			1.10.0
 COMPONENT_SUMMARY =		API to interact with the python pyproject.toml based projects
 COMPONENT_PROJECT_URL =		https://pyproject-api.readthedocs.io
 COMPONENT_ARCHIVE_HASH =	\
-	sha256:43c9918f49daab37e302038fc1aed54a8c7a91a9fa935d00b9a485f37e0f5335
+	sha256:40c6f2d82eebdc4afee61c773ed208c04c19db4c4a60d97f8d7be3ebc0bbb330
 COMPONENT_LICENSE =		MIT
 COMPONENT_LICENSE_FILE =	LICENSE
 
@@ -32,17 +32,19 @@ COMPONENT_LICENSE_FILE =	LICENSE
 # - tox (test bootstrap)
 PYTHON_TEST_BOOTSTRAP = yes
 
+# Python 3.9 is not supported by pyproject_api >= 1.10.0
+PYTHON_VERSIONS := $(filter-out 3.9,$(PYTHON_VERSIONS))
+
 include $(WS_MAKE_RULES)/common.mk
 
 # https://github.com/tox-dev/pyproject-api/issues/153
 PYTEST_ADDOPTS += --deselect tests/test_frontend_setuptools.py::test_setuptools_prepare_metadata_for_build_wheel
 
 # Auto-generated dependencies
-PYTHON_REQUIRED_PACKAGES += library/python/hatch-vcs
-PYTHON_REQUIRED_PACKAGES += library/python/hatchling
-PYTHON_REQUIRED_PACKAGES += library/python/packaging
-PYTHON_REQUIRED_PACKAGES += library/python/tomli
-PYTHON_REQUIRED_PACKAGES += runtime/python
+REQUIRED_PACKAGES.python += library/python/hatch-vcs
+REQUIRED_PACKAGES.python += library/python/hatchling
+REQUIRED_PACKAGES.python += library/python/packaging
+REQUIRED_PACKAGES.python += runtime/python
 TEST_REQUIRED_PACKAGES.python += library/python/covdefaults
 TEST_REQUIRED_PACKAGES.python += library/python/pytest
 TEST_REQUIRED_PACKAGES.python += library/python/pytest-cov

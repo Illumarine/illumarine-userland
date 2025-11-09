@@ -19,12 +19,11 @@ USE_PARALLEL_BUILD= yes
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME=		asterisk
-COMPONENT_VERSION=	22.4.1
-COMPONENT_REVISION=	1
+COMPONENT_VERSION=	22.6.0
 COMPONENT_SUMMARY=	Asterisk is an all-purpose telephony server
 COMPONENT_SRC=		$(COMPONENT_NAME)-$(COMPONENT_VERSION)
 COMPONENT_ARCHIVE=	$(COMPONENT_SRC).tar.gz
-COMPONENT_ARCHIVE_HASH=	sha256:92a6312edb3db16bbd1126423fb88517dca2408d681d53cf09939cb299b4b894
+COMPONENT_ARCHIVE_HASH=	sha256:e5b33b9b6fd6fb2bbbe748bd34f517d9c634afbbd6c53bbbdd3214ec8a6a7749
 COMPONENT_PROJECT_URL=	https://www.asterisk.org
 COMPONENT_ARCHIVE_URL=	https://downloads.asterisk.org/pub/telephony/asterisk/old-releases/$(COMPONENT_ARCHIVE)
 COMPONENT_FMRI=		network/asterisk

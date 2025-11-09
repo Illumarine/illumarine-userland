@@ -19,20 +19,21 @@ BUILD_STYLE = pyproject
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =		pytest_run_parallel
-HUMAN_VERSION =			0.5.0
+HUMAN_VERSION =			0.7.0
 COMPONENT_SUMMARY =		A simple pytest plugin to run tests concurrently
 COMPONENT_ARCHIVE_HASH =	\
-	sha256:444c62acfcdc33ce896bd339ada400c1df42660351e3c2ec02d876f8ce243345
+	sha256:05088a808d26975f095739a06efc9e8ba4749c194457f9927903eaacdd1e05ce
 COMPONENT_LICENSE =		MIT
 COMPONENT_LICENSE_FILE =	LICENSE
 
 include $(WS_MAKE_RULES)/common.mk
 
 # Auto-generated dependencies
-PYTHON_REQUIRED_PACKAGES += library/python/pytest
-PYTHON_REQUIRED_PACKAGES += library/python/setuptools
-PYTHON_REQUIRED_PACKAGES += runtime/python
+REQUIRED_PACKAGES.python += library/python/pytest
+REQUIRED_PACKAGES.python += library/python/setuptools
+REQUIRED_PACKAGES.python += runtime/python
+TEST_REQUIRED_PACKAGES.python += library/python/coverage
 TEST_REQUIRED_PACKAGES.python += library/python/hypothesis
 TEST_REQUIRED_PACKAGES.python += library/python/pytest
-TEST_REQUIRED_PACKAGES.python += library/python/pytest-cov
 TEST_REQUIRED_PACKAGES.python += library/python/pytest-order
+TEST_REQUIRED_PACKAGES.python += library/python/tomli

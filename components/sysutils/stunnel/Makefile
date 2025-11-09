@@ -18,14 +18,13 @@
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME=         stunnel
-COMPONENT_VERSION=      5.74
+COMPONENT_VERSION=      5.76
 COMPONENT_SUMMARY=	A TLS-encrypting socket wrapper
 COMPONENT_PROJECT_URL=  https://www.stunnel.org/
 COMPONENT_FMRI=		service/security/stunnel
 COMPONENT_SRC=          $(COMPONENT_NAME)-$(COMPONENT_VERSION)
 COMPONENT_ARCHIVE=      $(COMPONENT_SRC).tar.gz
-COMPONENT_ARCHIVE_HASH= \
-	sha256:9bef235ab5d24a2a8dff6485dfd782ed235f4407e9bc8716deb383fc80cd6230
+COMPONENT_ARCHIVE_HASH= sha256:cda37eb4d0fb1e129718ed27ad77b5735e899394ce040bb2be28bbb937fd79e1
 COMPONENT_ARCHIVE_URL=  $(COMPONENT_PROJECT_URL)/downloads/archive/5.x/$(COMPONENT_ARCHIVE)
 COMPONENT_LICENSE=	GPLv2
 
@@ -42,8 +41,6 @@ CPPFLAGS += -DMACH64='\"$(MACH64)\"'
 
 CONFIGURE_OPTIONS += --disable-fips
 CONFIGURE_OPTIONS += --enable-ipv6
-CONFIGURE_OPTIONS += --localstatedir=$(VARDIR)
-CONFIGURE_OPTIONS += --sysconfdir=$(ETCDIR)
 CONFIGURE_OPTIONS += --with-ssl=$(OPENSSL_PREFIX)
 CONFIGURE_OPTIONS += CPPFLAGS="$(CPPFLAGS)"
 CONFIGURE_OPTIONS += CFLAGS="$(CFLAGS)"
@@ -71,7 +68,7 @@ COMPONENT_TEST_TRANSFORMS += \
 '-e "/^Summary:/p" '
 
 # ncat needed for test suite
-REQUIRED_PACKAGES += diagnostic/nmap
+TEST_REQUIRED_PACKAGES += diagnostic/nmap
 
 # Auto-generated dependencies
 REQUIRED_PACKAGES += $(OPENSSL_PKG)

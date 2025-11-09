@@ -5,7 +5,7 @@ platform sunos5 -- Python $(PYTHON_VERSION).X -- $(@D)/.tox/py$(PYV)/bin/python
 cachedir: .tox/py$(PYV)/.pytest_cache
 rootdir: $(@D)
 configfile: pyproject.toml
-collecting ... collected 1916 items
+collecting ... collected 1946 items
 
 tests/test_diagram.py::TestRailroadDiagrams::test_complete_combine_element PASSED
 tests/test_diagram.py::TestRailroadDiagrams::test_create_diagram PASSED
@@ -194,6 +194,7 @@ tests/test_unit.py::Test02_WithoutPackrat::testMulWithEllipsis PASSED
 tests/test_unit.py::Test02_WithoutPackrat::testMulWithNegativeNumber PASSED
 tests/test_unit.py::Test02_WithoutPackrat::testNestedAsDict PASSED
 tests/test_unit.py::Test02_WithoutPackrat::testNestedExpressionDoesNotOverwriteParseActions PASSED
+tests/test_unit.py::Test02_WithoutPackrat::testNestedExpressionRandom PASSED
 tests/test_unit.py::Test02_WithoutPackrat::testNestedExpressions PASSED
 tests/test_unit.py::Test02_WithoutPackrat::testNestedExpressions2 PASSED
 tests/test_unit.py::Test02_WithoutPackrat::testNestedExpressions3 PASSED
@@ -360,6 +361,9 @@ tests/test_unit.py::Test02_WithoutPackrat::testWarnUsingLshiftForward PASSED
 tests/test_unit.py::Test02_WithoutPackrat::testWithAttributeParseAction PASSED
 tests/test_unit.py::Test02_WithoutPackrat::testWordBoundaryExpressions PASSED
 tests/test_unit.py::Test02_WithoutPackrat::testWordBoundaryExpressions2 PASSED
+tests/test_unit.py::Test02_WithoutPackrat::testWordCopyWhenWordCharsIncludeSpace PASSED
+tests/test_unit.py::Test02_WithoutPackrat::testWordCopyWhenWordCharsIncludeSpace2 PASSED
+tests/test_unit.py::Test02_WithoutPackrat::testWordCopyWhenWordCharsIncludeSpace3 PASSED
 tests/test_unit.py::Test02_WithoutPackrat::testWordExact PASSED
 tests/test_unit.py::Test02_WithoutPackrat::testWordExclude PASSED
 tests/test_unit.py::Test02_WithoutPackrat::testWordExclude2 PASSED
@@ -372,6 +376,7 @@ tests/test_unit.py::Test02_WithoutPackrat::testWordMin PASSED
 tests/test_unit.py::Test02_WithoutPackrat::testWordMinMaxArgs PASSED
 tests/test_unit.py::Test02_WithoutPackrat::testWordMinMaxExactArgs PASSED
 tests/test_unit.py::Test02_WithoutPackrat::testWordMinOfZero PASSED
+tests/test_unit.py::Test02_WithoutPackrat::testWordParseImpl PASSED
 tests/test_unit.py::Test02_WithoutPackrat::testWordWithIdentChars PASSED
 tests/test_unit.py::Test02_WithoutPackrat::testZeroOrMoreStop PASSED
 tests/test_unit.py::Test02_WithoutPackrat::test_exception_messages PASSED
@@ -489,6 +494,7 @@ tests/test_unit.py::Test04_WithPackrat::testMulWithEllipsis PASSED
 tests/test_unit.py::Test04_WithPackrat::testMulWithNegativeNumber PASSED
 tests/test_unit.py::Test04_WithPackrat::testNestedAsDict PASSED
 tests/test_unit.py::Test04_WithPackrat::testNestedExpressionDoesNotOverwriteParseActions PASSED
+tests/test_unit.py::Test04_WithPackrat::testNestedExpressionRandom PASSED
 tests/test_unit.py::Test04_WithPackrat::testNestedExpressions PASSED
 tests/test_unit.py::Test04_WithPackrat::testNestedExpressions2 PASSED
 tests/test_unit.py::Test04_WithPackrat::testNestedExpressions3 PASSED
@@ -655,6 +661,9 @@ tests/test_unit.py::Test04_WithPackrat::testWarnUsingLshiftForward PASSED
 tests/test_unit.py::Test04_WithPackrat::testWithAttributeParseAction PASSED
 tests/test_unit.py::Test04_WithPackrat::testWordBoundaryExpressions PASSED
 tests/test_unit.py::Test04_WithPackrat::testWordBoundaryExpressions2 PASSED
+tests/test_unit.py::Test04_WithPackrat::testWordCopyWhenWordCharsIncludeSpace PASSED
+tests/test_unit.py::Test04_WithPackrat::testWordCopyWhenWordCharsIncludeSpace2 PASSED
+tests/test_unit.py::Test04_WithPackrat::testWordCopyWhenWordCharsIncludeSpace3 PASSED
 tests/test_unit.py::Test04_WithPackrat::testWordExact PASSED
 tests/test_unit.py::Test04_WithPackrat::testWordExclude PASSED
 tests/test_unit.py::Test04_WithPackrat::testWordExclude2 PASSED
@@ -667,6 +676,7 @@ tests/test_unit.py::Test04_WithPackrat::testWordMin PASSED
 tests/test_unit.py::Test04_WithPackrat::testWordMinMaxArgs PASSED
 tests/test_unit.py::Test04_WithPackrat::testWordMinMaxExactArgs PASSED
 tests/test_unit.py::Test04_WithPackrat::testWordMinOfZero PASSED
+tests/test_unit.py::Test04_WithPackrat::testWordParseImpl PASSED
 tests/test_unit.py::Test04_WithPackrat::testWordWithIdentChars PASSED
 tests/test_unit.py::Test04_WithPackrat::testZeroOrMoreStop PASSED
 tests/test_unit.py::Test04_WithPackrat::test_exception_messages PASSED
@@ -784,6 +794,7 @@ tests/test_unit.py::Test06_WithBoundedPackrat::testMulWithEllipsis PASSED
 tests/test_unit.py::Test06_WithBoundedPackrat::testMulWithNegativeNumber PASSED
 tests/test_unit.py::Test06_WithBoundedPackrat::testNestedAsDict PASSED
 tests/test_unit.py::Test06_WithBoundedPackrat::testNestedExpressionDoesNotOverwriteParseActions PASSED
+tests/test_unit.py::Test06_WithBoundedPackrat::testNestedExpressionRandom PASSED
 tests/test_unit.py::Test06_WithBoundedPackrat::testNestedExpressions PASSED
 tests/test_unit.py::Test06_WithBoundedPackrat::testNestedExpressions2 PASSED
 tests/test_unit.py::Test06_WithBoundedPackrat::testNestedExpressions3 PASSED
@@ -950,6 +961,9 @@ tests/test_unit.py::Test06_WithBoundedPackrat::testWarnUsingLshiftForward PASSED
 tests/test_unit.py::Test06_WithBoundedPackrat::testWithAttributeParseAction PASSED
 tests/test_unit.py::Test06_WithBoundedPackrat::testWordBoundaryExpressions PASSED
 tests/test_unit.py::Test06_WithBoundedPackrat::testWordBoundaryExpressions2 PASSED
+tests/test_unit.py::Test06_WithBoundedPackrat::testWordCopyWhenWordCharsIncludeSpace PASSED
+tests/test_unit.py::Test06_WithBoundedPackrat::testWordCopyWhenWordCharsIncludeSpace2 PASSED
+tests/test_unit.py::Test06_WithBoundedPackrat::testWordCopyWhenWordCharsIncludeSpace3 PASSED
 tests/test_unit.py::Test06_WithBoundedPackrat::testWordExact PASSED
 tests/test_unit.py::Test06_WithBoundedPackrat::testWordExclude PASSED
 tests/test_unit.py::Test06_WithBoundedPackrat::testWordExclude2 PASSED
@@ -962,6 +976,7 @@ tests/test_unit.py::Test06_WithBoundedPackrat::testWordMin PASSED
 tests/test_unit.py::Test06_WithBoundedPackrat::testWordMinMaxArgs PASSED
 tests/test_unit.py::Test06_WithBoundedPackrat::testWordMinMaxExactArgs PASSED
 tests/test_unit.py::Test06_WithBoundedPackrat::testWordMinOfZero PASSED
+tests/test_unit.py::Test06_WithBoundedPackrat::testWordParseImpl PASSED
 tests/test_unit.py::Test06_WithBoundedPackrat::testWordWithIdentChars PASSED
 tests/test_unit.py::Test06_WithBoundedPackrat::testZeroOrMoreStop PASSED
 tests/test_unit.py::Test06_WithBoundedPackrat::test_exceeding_fifo_cache_size PASSED
@@ -1080,6 +1095,7 @@ tests/test_unit.py::Test08_WithUnboundedPackrat::testMulWithEllipsis PASSED
 tests/test_unit.py::Test08_WithUnboundedPackrat::testMulWithNegativeNumber PASSED
 tests/test_unit.py::Test08_WithUnboundedPackrat::testNestedAsDict PASSED
 tests/test_unit.py::Test08_WithUnboundedPackrat::testNestedExpressionDoesNotOverwriteParseActions PASSED
+tests/test_unit.py::Test08_WithUnboundedPackrat::testNestedExpressionRandom PASSED
 tests/test_unit.py::Test08_WithUnboundedPackrat::testNestedExpressions PASSED
 tests/test_unit.py::Test08_WithUnboundedPackrat::testNestedExpressions2 PASSED
 tests/test_unit.py::Test08_WithUnboundedPackrat::testNestedExpressions3 PASSED
@@ -1246,6 +1262,9 @@ tests/test_unit.py::Test08_WithUnboundedPackrat::testWarnUsingLshiftForward PASS
 tests/test_unit.py::Test08_WithUnboundedPackrat::testWithAttributeParseAction PASSED
 tests/test_unit.py::Test08_WithUnboundedPackrat::testWordBoundaryExpressions PASSED
 tests/test_unit.py::Test08_WithUnboundedPackrat::testWordBoundaryExpressions2 PASSED
+tests/test_unit.py::Test08_WithUnboundedPackrat::testWordCopyWhenWordCharsIncludeSpace PASSED
+tests/test_unit.py::Test08_WithUnboundedPackrat::testWordCopyWhenWordCharsIncludeSpace2 PASSED
+tests/test_unit.py::Test08_WithUnboundedPackrat::testWordCopyWhenWordCharsIncludeSpace3 PASSED
 tests/test_unit.py::Test08_WithUnboundedPackrat::testWordExact PASSED
 tests/test_unit.py::Test08_WithUnboundedPackrat::testWordExclude PASSED
 tests/test_unit.py::Test08_WithUnboundedPackrat::testWordExclude2 PASSED
@@ -1258,6 +1277,7 @@ tests/test_unit.py::Test08_WithUnboundedPackrat::testWordMin PASSED
 tests/test_unit.py::Test08_WithUnboundedPackrat::testWordMinMaxArgs PASSED
 tests/test_unit.py::Test08_WithUnboundedPackrat::testWordMinMaxExactArgs PASSED
 tests/test_unit.py::Test08_WithUnboundedPackrat::testWordMinOfZero PASSED
+tests/test_unit.py::Test08_WithUnboundedPackrat::testWordParseImpl PASSED
 tests/test_unit.py::Test08_WithUnboundedPackrat::testWordWithIdentChars PASSED
 tests/test_unit.py::Test08_WithUnboundedPackrat::testZeroOrMoreStop PASSED
 tests/test_unit.py::Test08_WithUnboundedPackrat::test_exception_messages PASSED
@@ -1374,6 +1394,7 @@ tests/test_unit.py::Test09_WithLeftRecursionParsing::testMulWithEllipsis PASSED
 tests/test_unit.py::Test09_WithLeftRecursionParsing::testMulWithNegativeNumber PASSED
 tests/test_unit.py::Test09_WithLeftRecursionParsing::testNestedAsDict PASSED
 tests/test_unit.py::Test09_WithLeftRecursionParsing::testNestedExpressionDoesNotOverwriteParseActions PASSED
+tests/test_unit.py::Test09_WithLeftRecursionParsing::testNestedExpressionRandom PASSED
 tests/test_unit.py::Test09_WithLeftRecursionParsing::testNestedExpressions PASSED
 tests/test_unit.py::Test09_WithLeftRecursionParsing::testNestedExpressions2 PASSED
 tests/test_unit.py::Test09_WithLeftRecursionParsing::testNestedExpressions3 PASSED
@@ -1540,6 +1561,9 @@ tests/test_unit.py::Test09_WithLeftRecursionParsing::testWarnUsingLshiftForward 
 tests/test_unit.py::Test09_WithLeftRecursionParsing::testWithAttributeParseAction PASSED
 tests/test_unit.py::Test09_WithLeftRecursionParsing::testWordBoundaryExpressions PASSED
 tests/test_unit.py::Test09_WithLeftRecursionParsing::testWordBoundaryExpressions2 PASSED
+tests/test_unit.py::Test09_WithLeftRecursionParsing::testWordCopyWhenWordCharsIncludeSpace PASSED
+tests/test_unit.py::Test09_WithLeftRecursionParsing::testWordCopyWhenWordCharsIncludeSpace2 PASSED
+tests/test_unit.py::Test09_WithLeftRecursionParsing::testWordCopyWhenWordCharsIncludeSpace3 PASSED
 tests/test_unit.py::Test09_WithLeftRecursionParsing::testWordExact PASSED
 tests/test_unit.py::Test09_WithLeftRecursionParsing::testWordExclude PASSED
 tests/test_unit.py::Test09_WithLeftRecursionParsing::testWordExclude2 PASSED
@@ -1552,6 +1576,7 @@ tests/test_unit.py::Test09_WithLeftRecursionParsing::testWordMin PASSED
 tests/test_unit.py::Test09_WithLeftRecursionParsing::testWordMinMaxArgs PASSED
 tests/test_unit.py::Test09_WithLeftRecursionParsing::testWordMinMaxExactArgs PASSED
 tests/test_unit.py::Test09_WithLeftRecursionParsing::testWordMinOfZero PASSED
+tests/test_unit.py::Test09_WithLeftRecursionParsing::testWordParseImpl PASSED
 tests/test_unit.py::Test09_WithLeftRecursionParsing::testWordWithIdentChars PASSED
 tests/test_unit.py::Test09_WithLeftRecursionParsing::testZeroOrMoreStop PASSED
 tests/test_unit.py::Test09_WithLeftRecursionParsing::test_exception_messages PASSED
@@ -1668,6 +1693,7 @@ tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testMulWithEllip
 tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testMulWithNegativeNumber PASSED
 tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testNestedAsDict PASSED
 tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testNestedExpressionDoesNotOverwriteParseActions PASSED
+tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testNestedExpressionRandom PASSED
 tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testNestedExpressions PASSED
 tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testNestedExpressions2 PASSED
 tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testNestedExpressions3 PASSED
@@ -1834,6 +1860,9 @@ tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testWarnUsingLsh
 tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testWithAttributeParseAction PASSED
 tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testWordBoundaryExpressions PASSED
 tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testWordBoundaryExpressions2 PASSED
+tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testWordCopyWhenWordCharsIncludeSpace PASSED
+tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testWordCopyWhenWordCharsIncludeSpace2 PASSED
+tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testWordCopyWhenWordCharsIncludeSpace3 PASSED
 tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testWordExact PASSED
 tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testWordExclude PASSED
 tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testWordExclude2 PASSED
@@ -1846,6 +1875,7 @@ tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testWordMin PASS
 tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testWordMinMaxArgs PASSED
 tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testWordMinMaxExactArgs PASSED
 tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testWordMinOfZero PASSED
+tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testWordParseImpl PASSED
 tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testWordWithIdentChars PASSED
 tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::testZeroOrMoreStop PASSED
 tests/test_unit.py::Test10_WithLeftRecursionParsingBoundedMemo::test_exception_messages PASSED
@@ -1924,6 +1954,6 @@ tests/test_util.py::test_make_compressed_re PASSED
 tests/test_util.py::test_make_compressed_re_bad_input PASSED
 tests/test_util.py::test_make_compressed_re_random PASSED
 
-======== 1889 passed, 27 skipped ========
+======== 1919 passed, 27 skipped ========
   py$(PYV): OK
   congratulations :)

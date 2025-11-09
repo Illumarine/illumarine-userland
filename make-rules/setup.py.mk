@@ -114,7 +114,7 @@ PYTHON_BOOTSTRAP_CHECKPOINT_2 +=	packaging
 PYTHON_BOOTSTRAP_CHECKPOINT_2 +=		flit_core
 
 # Particular python runtime is always required (at least to run setup.py)
-PYTHON_REQUIRED_PACKAGES += runtime/python
+USERLAND_REQUIRED_PACKAGES.python += runtime/python
 
 define python-rule
 $(BUILD_DIR)/%-$(1)/.built:		PYTHON_VERSION=$(1)
@@ -173,7 +173,7 @@ $(foreach pyver,$(filter-out $(PYTHON_VERSION),$(PYTHON_VERSIONS)),$(eval $(call
 
 # We need to copy the source dir to avoid its modification by install target
 # where egg-info is re-generated
-CLONEY_ARGS = CLONEY_MODE="copy"
+CLONEY_MODE = copy
 
 COMPONENT_CONFIGURE_ACTION = true
 
@@ -223,7 +223,7 @@ COMPONENT_TEST_TRANSFORMS += "-e 's|$(PYTHON_DIR)|\$$(PYTHON_DIR)|g'"
 # Testing depends on install target because we want to test installed modules
 COMPONENT_TEST_DEP +=	$(BUILD_DIR)/%/.installed
 # Point Python to the proto area so it is able to find installed modules there
-COMPONENT_TEST_ENV +=	PYTHONPATH=$(PROTO_DIR)/$(PYTHON_LIB)
+COMPONENT_TEST_ENV +=	PYTHONPATH=$(PROTOPYTHONVENDORDIR)
 # Make sure testing is able to find own installed executables (if any)
 COMPONENT_TEST_ENV +=	PATH=$(PROTOUSRBINDIR):$(PATH)
 
@@ -302,6 +302,7 @@ TOX_TESTENV = -e py$(subst .,,$(PYTHON_VERSION))
 
 # Make sure following tools are called indirectly to properly support tox-current-env
 TOX_CALL_INDIRECTLY += py.test
+TOX_CALL_INDIRECTLY.py.test += pytest
 TOX_CALL_INDIRECTLY += pytest
 TOX_CALL_INDIRECTLY += coverage
 TOX_CALL_INDIRECTLY += zope-testrunner
@@ -352,43 +353,44 @@ COMPONENT_TEST_TRANSFORMS += \
 	) | $(COMPONENT_TEST_TRANSFORMER)"
 
 # tox package together with the tox-current-env plugin is needed
-USERLAND_TEST_REQUIRED_PACKAGES += library/python/tox
-USERLAND_TEST_REQUIRED_PACKAGES += library/python/tox-current-env
+USERLAND_TEST_REQUIRED_PACKAGES.python += library/python/tox
+USERLAND_TEST_REQUIRED_PACKAGES.python += library/python/tox-current-env
 
 # Generate raw lists of test dependencies per Python version
 # Please note we set PATH below five times for tox to workaround
 # https://github.com/tox-dev/tox/issues/2538
 COMPONENT_POST_INSTALL_ACTION += \
-	if [ -x "$(TOX)" ] ; then \
+	if $(TOX) --version 2>/dev/null | $(GNU_GREP) -q tox-current-env ; then \
 		cd $(@D)$(COMPONENT_SUBDIR:%=/%) ; \
 		echo "Testing dependencies:" ; \
-		PATH=$(PATH) PYTHONPATH=$(PROTO_DIR)/$(PYTHON_DIR)/site-packages:$(PROTO_DIR)/$(PYTHON_LIB) \
-			$(TOX) -qq --no-provision --print-deps-to=- $(TOX_TESTENV) || exit 1 ; \
+		PATH=$(PATH) $(TOX) -qq --no-provision --print-deps-to=- $(TOX_TESTENV) || exit 1 ; \
 		echo "Testing extras:" ; \
-		PATH=$(PATH) PYTHONPATH=$(PROTO_DIR)/$(PYTHON_DIR)/site-packages:$(PROTO_DIR)/$(PYTHON_LIB) \
-			$(TOX) -qq --no-provision --print-extras-to=- $(TOX_TESTENV) || exit 1 ; \
+		PATH=$(PATH) $(TOX) -qq --no-provision --print-extras-to=- $(TOX_TESTENV) || exit 1 ; \
 		echo "Testing dependency groups:" ; \
-		PATH=$(PATH) PYTHONPATH=$(PROTO_DIR)/$(PYTHON_DIR)/site-packages:$(PROTO_DIR)/$(PYTHON_LIB) \
-			$(TOX) -qq --no-provision --print-dependency-groups-to=- $(TOX_TESTENV) || exit 1 ; \
-		( PATH=$(PATH) PYTHONPATH=$(PROTO_DIR)/$(PYTHON_DIR)/site-packages:$(PROTO_DIR)/$(PYTHON_LIB) \
-			$(TOX) -qq --no-provision --print-deps-to=- $(TOX_TESTENV) \
+		PATH=$(PATH) $(TOX) -qq --no-provision --print-dependency-groups-to=- $(TOX_TESTENV) || exit 1 ; \
+		( PATH=$(PATH) $(TOX) -qq --no-provision --print-deps-to=- $(TOX_TESTENV) \
 			| $(WS_TOOLS)/python-resolve-deps \
-				PYTHONPATH=$(PROTO_DIR)/$(PYTHON_DIR)/site-packages:$(PROTO_DIR)/$(PYTHON_LIB) \
+				PYTHONPATH=$(PROTOPYTHONSITEDIR):$(PROTOPYTHONVENDORDIR) \
 				$(PYTHON) $(WS_TOOLS)/python-requires $(COMPONENT_NAME) \
 			| $(PYTHON) $(WS_TOOLS)/python-requires - ; \
-		for e in $$(PATH=$(PATH) PYTHONPATH=$(PROTO_DIR)/$(PYTHON_DIR)/site-packages:$(PROTO_DIR)/$(PYTHON_LIB) \
-			$(TOX) -qq --no-provision --print-extras-to=- $(TOX_TESTENV)) ; do \
-			PYTHONPATH=$(PROTO_DIR)/$(PYTHON_DIR)/site-packages:$(PROTO_DIR)/$(PYTHON_LIB) \
+		for e in $$(PATH=$(PATH) $(TOX) -qq --no-provision --print-extras-to=- $(TOX_TESTENV)) ; do \
+			PYTHONPATH=$(PROTOPYTHONSITEDIR):$(PROTOPYTHONVENDORDIR) \
 				$(PYTHON) $(WS_TOOLS)/python-requires $(COMPONENT_NAME) $$e ; \
 		done \
 		) | $(GSED) -e '/^tox\(-current-env\)\?$$/d' >> $(@D)/.depend-test ; \
 	fi ;
+# Both tox and tox-current-env are needed to generate the list of test
+# dependencies.  During the bootstrap they might be not available so depend on
+# them conditionally.  Additionally, the python-requires script requires
+# packaging, but this dependency is already handled separately (see below).
+USERLAND_REQUIRED_PACKAGES.python += $(if $(filter yes,$(PYTHON_TEST_BOOTSTRAP)),,library/python/tox)
+USERLAND_REQUIRED_PACKAGES.python += $(if $(filter yes,$(PYTHON_TEST_BOOTSTRAP)),,library/python/tox-current-env)
 else ifeq ($(strip $(TEST_STYLE)),pytest)
 COMPONENT_TEST_CMD =		$(PYTHON) -m pytest
 COMPONENT_TEST_ARGS =		$(PYTEST_ADDOPTS)
 COMPONENT_TEST_TARGETS =
 
-USERLAND_TEST_REQUIRED_PACKAGES += library/python/pytest
+USERLAND_TEST_REQUIRED_PACKAGES.python += library/python/pytest
 else ifeq ($(strip $(TEST_STYLE)),unittest)
 COMPONENT_TEST_CMD =		$(PYTHON) -m unittest
 COMPONENT_TEST_ARGS =
@@ -422,7 +424,7 @@ $(eval $(call pytest-plugin,inline-snapshot,inline_snapshot))
 $(eval $(call pytest-plugin,jaraco-test,jaraco.test.http))
 $(eval $(call pytest-plugin,jaraco-vcs,jaraco.vcs.fixtures))
 $(eval $(call pytest-plugin,kgb,kgb))
-$(eval $(call pytest-plugin,pyfakefs,pytest_fakefs))
+$(eval $(call pytest-plugin,pyfakefs,fakefs))
 $(eval $(call pytest-plugin,pytest-asyncio,asyncio))
 $(eval $(call pytest-plugin,pytest-benchmark,benchmark))
 $(eval $(call pytest-plugin,pytest-black,black))
@@ -435,7 +437,6 @@ $(eval $(call pytest-plugin,pytest-datadir,pytest-datadir))
 $(eval $(call pytest-plugin,pytest-dependency,dependency))
 $(eval $(call pytest-plugin,pytest-enabler,enabler))
 $(eval $(call pytest-plugin,pytest-env,env))
-$(eval $(call pytest-plugin,pytest-expect,pytest_expect))
 $(eval $(call pytest-plugin,pytest-flake8,flake8))
 $(eval $(call pytest-plugin,pytest-forked,pytest_forked))
 $(eval $(call pytest-plugin,pytest-freezer,freezer))
@@ -628,7 +629,7 @@ REQUIRED_PACKAGES_RESOLVED += $(BUILD_DIR)/META.depend-runtime.res
 
 # Generate raw lists of runtime dependencies per Python version
 COMPONENT_POST_INSTALL_ACTION += \
-	PYTHONPATH=$(PROTO_DIR)/$(PYTHON_DIR)/site-packages:$(PROTO_DIR)/$(PYTHON_LIB) \
+	PYTHONPATH=$(PROTOPYTHONSITEDIR):$(PROTOPYTHONVENDORDIR) \
 		$(PYTHON) $(WS_TOOLS)/python-requires $(COMPONENT_NAME) >> $(@D)/.depend-runtime ;
 
 # Convert raw per version lists of runtime dependencies to single resolved
@@ -645,10 +646,10 @@ COMPONENT_POST_INSTALL_ACTION += \
 		$(CAT) $$f | $(DOS2UNIX) -ascii ; \
 	done ; \
 	for e in $(TEST_REQUIREMENTS_EXTRAS) ; do \
-		PYTHONPATH=$(PROTO_DIR)/$(PYTHON_DIR)/site-packages:$(PROTO_DIR)/$(PYTHON_LIB) \
+		PYTHONPATH=$(PROTOPYTHONSITEDIR):$(PROTOPYTHONVENDORDIR) \
 			$(PYTHON) $(WS_TOOLS)/python-requires $(COMPONENT_NAME) $$e ; \
 	done ) | $(WS_TOOLS)/python-resolve-deps \
-		PYTHONPATH=$(PROTO_DIR)/$(PYTHON_DIR)/site-packages:$(PROTO_DIR)/$(PYTHON_LIB) \
+		PYTHONPATH=$(PROTOPYTHONSITEDIR):$(PROTOPYTHONVENDORDIR) \
 		$(PYTHON) $(WS_TOOLS)/python-requires $(COMPONENT_NAME) \
 	| $(PYTHON) $(WS_TOOLS)/python-requires - >> $(@D)/.depend-test ;
 

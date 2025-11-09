@@ -1,11 +1,9 @@
-py$(PYV): remove tox env folder $(@D)/.tox/py$(PYV)
-py$(PYV): commands[0]> python -m pytest '-m not download'
 ============================= test session starts ==============================
-platform sunos5 -- Python $(PYTHON_VERSION).X -- $(@D)/.tox/py$(PYV)/bin/python
-cachedir: .tox/py$(PYV)/.pytest_cache
+platform sunos5 -- Python $(PYTHON_VERSION).X -- $(PYTHON)
+cachedir: .pytest_cache
 rootdir: $(@D)
 configfile: pyproject.toml
-collecting ... collected 7410 items / 6163 deselected / 1247 selected
+collecting ... collected 7354 items / 6101 deselected / 1253 selected
 
 test/test_InfoExtractor.py::TestInfoExtractor::test_download_json PASSED
 test/test_InfoExtractor.py::TestInfoExtractor::test_extract_jwplayer_data_realworld PASSED
@@ -88,6 +86,7 @@ test/test_all_urls.py::TestAllURLsMatching::test_youtube_playlist_matching PASSE
 test/test_all_urls.py::TestAllURLsMatching::test_youtube_search_matching PASSED
 test/test_all_urls.py::TestAllURLsMatching::test_youtube_user_matching PASSED
 test/test_cache.py::TestCache::test_cache PASSED
+test/test_compat.py::TestCompat::test_compat_datetime_from_timestamp PASSED
 test/test_compat.py::TestCompat::test_compat_etree_fromstring PASSED
 test/test_compat.py::TestCompat::test_compat_etree_fromstring_doctype PASSED
 test/test_compat.py::TestCompat::test_compat_expanduser PASSED
@@ -1082,6 +1081,7 @@ test/test_traversal.py::TestTraversalHelpers::test_unpack PASSED
 test/test_traversal.py::TestTraversalHelpers::test_find_element PASSED
 test/test_traversal.py::TestTraversalHelpers::test_find_elements PASSED
 test/test_traversal.py::TestDictGet::test_dict_get PASSED
+test/test_update.py::TestUpdate::test_make_label PASSED
 test/test_update.py::TestUpdate::test_query_update PASSED
 test/test_update.py::TestUpdate::test_update_spec PASSED
 test/test_utils.py::TestUtil::test_LazyList PASSED
@@ -1098,6 +1098,7 @@ test/test_utils.py::TestUtil::test_cli_valueless_option PASSED
 test/test_utils.py::TestUtil::test_date_from_str PASSED
 test/test_utils.py::TestUtil::test_daterange PASSED
 test/test_utils.py::TestUtil::test_datetime_from_str PASSED
+test/test_utils.py::TestUtil::test_datetime_round PASSED
 test/test_utils.py::TestUtil::test_detect_exe_version PASSED
 test/test_utils.py::TestUtil::test_determine_ext PASSED
 test/test_utils.py::TestUtil::test_determine_file_encoding PASSED
@@ -1134,6 +1135,8 @@ test/test_utils.py::TestUtil::test_js_to_json_malformed PASSED
 test/test_utils.py::TestUtil::test_js_to_json_realworld PASSED
 test/test_utils.py::TestUtil::test_js_to_json_template_literal PASSED
 test/test_utils.py::TestUtil::test_js_to_json_vars_strings PASSED
+test/test_utils.py::TestUtil::test_jwt_decode_hs256 PASSED
+test/test_utils.py::TestUtil::test_jwt_encode PASSED
 test/test_utils.py::TestUtil::test_limit_length PASSED
 test/test_utils.py::TestUtil::test_locked_file PASSED
 test/test_utils.py::TestUtil::test_lowercase_escape PASSED
@@ -1174,6 +1177,7 @@ test/test_utils.py::TestUtil::test_sanitize_url PASSED
 test/test_utils.py::TestUtil::test_shell_quote PASSED
 test/test_utils.py::TestUtil::test_smuggle_url PASSED
 test/test_utils.py::TestUtil::test_str_to_int PASSED
+test/test_utils.py::TestUtil::test_strftime_or_none PASSED
 test/test_utils.py::TestUtil::test_strip_jsonp PASSED
 test/test_utils.py::TestUtil::test_strip_or_none PASSED
 test/test_utils.py::TestUtil::test_subtitles_filename PASSED
@@ -1260,6 +1264,4 @@ test/test_websockets.py::TestWebsocketsRequestHandler::test_ws_recv_error_mappin
 test/test_youtube_misc.py::TestYoutubeMisc::test_youtube_extract PASSED
 
 =========================== short test summary info ============================
-======== 1091 passed, 156 skipped, 6163 deselected ========
-  py$(PYV): OK
-  congratulations :)
+======== 1097 passed, 156 skipped, 6101 deselected ========

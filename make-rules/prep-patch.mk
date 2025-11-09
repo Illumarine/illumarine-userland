@@ -47,23 +47,21 @@ PATCH_PATTERN ?=	*.patch*
 
 PATCH_DIR ?=		patches
 
-PATCHES =	$(wildcard $(PATCH_DIR)/$(PATCH_PATTERN))
+ALL_PATCHES =	$(wildcard $(PATCH_DIR)/$(PATCH_PATTERN))
 
-PCH_SUFFIXES = $(patsubst .patch_%,%, $(filter-out .patch,$(suffix $(PATCHES))))
+PCH_SUFFIXES = $(patsubst .patch_%,%, $(filter-out .patch,$(suffix $(ALL_PATCHES))))
 
 define patch-rule
 
 ifeq ($(1),_0)
 PATCH_PATTERN$(1) ?=	%.patch
-PATCHES$(1) = $(filter %.patch,$(PATCHES))
+PATCHES$(1) = $(filter %.patch,$(ALL_PATCHES))
 else
 PATCH_PATTERN$(1) ?=	%.patch$(1)
-PATCHES$(1) = $(filter %.patch$(1),$(PATCHES))
+PATCHES$(1) = $(filter %.patch$(1),$(ALL_PATCHES))
 endif
 
-ifneq ($(strip $(ADDITIONAL_PATCHES$(1))),)
 PATCHES$(1) += $(ADDITIONAL_PATCHES$(1))
-endif
 
 ifneq ($$(PATCHES$(1)),)
 PATCH_STAMPS$(1) += $$(PATCHES$(1):$(PATCH_DIR)/%=$$(SOURCE_DIR$(1))/.patched-%)
@@ -77,10 +75,6 @@ $$(PATCH_STAMPS$(1)):	unpack
 # re-evaluate the need for patching.  If we ever move the stamps to the build
 # directory, we may not need the dependency any more.
 $$(SOURCE_DIR$(1))/.patched-%:	$(PATCH_DIR)/% $(MAKEFILE_PREREQ)
-	$(GPATCH) -d $$(@D) $$(GPATCH_FLAGS) < $$<
-	$(TOUCH) $$(@)
-
-$$(SOURCE_DIR$(1))/.patched-%:	$(MAKEFILE_PREREQ)
 	$(GPATCH) -d $$(@D) $$(GPATCH_FLAGS) < $$<
 	$(TOUCH) $$(@)
 

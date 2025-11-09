@@ -127,7 +127,7 @@ ROOT =			/
 # to determine the distribution version
 # (it should look like OpenIndiana Hipster YYYY.MM).
 DISTRIBUTION_NAME = OpenIndiana Hipster
-DISTRIBUTION_VERSION = 2025.06
+DISTRIBUTION_VERSION = 2025.10
 # Native OS version
 OS_VERSION :=		$(shell $(UNAME) -r)
 SOLARIS_VERSION =	$(OS_VERSION:5.%=2.%)
@@ -193,14 +193,19 @@ endif
 # | Python version | Obsolete after |
 # +----------------+----------------+
 # |      3.9       |   2025-10      |
+# |      3.14      |   2030-10      |
 # +----------------+----------------+
 #
 # See https://devguide.python.org/versions/
 #
 
+# This is the default version of Python
 PYTHON_VERSION = 3.9
-PYTHON_VERSIONS = 3.9
 
+# The PYTHON_VERSIONS list should always be in ascending order (newest version
+# last)
+PYTHON_VERSIONS = 3.9
+PYTHON_VERSIONS += 3.14
 # Python up to 2.7 was built both 32-bit and 64-bit.  Starting with Python 3.x
 # the python package is built 64-bit only.  So now all PYTHON_VERSIONS are
 # 64-bit only.
@@ -214,7 +219,22 @@ PYTHON_64_ONLY_VERSIONS = $(PYTHON_VERSIONS)
 #
 # This list should be usually empty.  Intersection of
 # PYTHON_VERSIONS_OBSOLETING and PYTHON_VERSIONS lists MUST be always empty.
-PYTHON_VERSIONS_OBSOLETING = 2.7 3.7
+PYTHON_VERSIONS_OBSOLETING = 3.7
+
+# Python definitions
+PYTHON = /usr/bin/python$(PYTHON_VERSION)
+TOX = /usr/bin/tox-$(PYTHON_VERSION)
+
+# The default is site-packages, but that directory belongs to the end-user.
+# Modules which are shipped by the OS but not with the core Python distribution
+# belong in vendor-packages.
+PYTHON_DIR = /usr/lib/python$(PYTHON_VERSION)
+PYTHON_LIB = $(PYTHON_DIR)/vendor-packages
+PYTHON_DATA = $(PYTHON_LIB)
+PYTHON_VENDOR_PACKAGES = $(PYTHON_LIB)
+PYTHON_SITE_PACKAGES = $(PYTHON_DIR)/site-packages
+PROTOPYTHONVENDORDIR = $(PROTO_DIR)/$(PYTHON_VENDOR_PACKAGES)
+PROTOPYTHONSITEDIR = $(PROTO_DIR)/$(PYTHON_SITE_PACKAGES)
 
 # PYTHON3_SOABI variable defines the naming scheme
 # of python3 extension libraries: cpython or abi3.
@@ -737,11 +757,6 @@ PATH.prepend +=		$(CLANG_BINDIR)
 USERLAND_REQUIRED_PACKAGES += $(if $(filter-out clang,$(COMPONENT_NAME)), \
 	$(if $(filter-out $(CLANG_DEFAULT),$(CLANG_VERSION)),$(CLANG_DEVELOPER_PKG)))
 
-# Python definitions
-PYTHON.3.9.VENDOR_PACKAGES.64 = /usr/lib/python3.9/vendor-packages
-PYTHON.3.9.VENDOR_PACKAGES.32 = /usr/lib/python3.9/vendor-packages
-PYTHON.3.9.VENDOR_PACKAGES = $(PYTHON.3.9.VENDOR_PACKAGES.$(BITS))
-
 CC =		$(CC.$(COMPILER).$(BITS))
 CXX =		$(CXX.$(COMPILER).$(BITS))
 F77 =		$(F77.$(COMPILER).$(BITS))
@@ -784,29 +799,6 @@ RUBY_SCRIPT_FIX_FUNC = \
 # need to get built.  This is done because during package transformations
 # both the ruby version and the ruby library version are needed.
 RUBY_VERSIONS = $(RUBY_LIB_VERSION)
-
-PYTHON_VENDOR_PACKAGES.32 = $(PYTHON.$(PYTHON_VERSION).VENDOR_PACKAGES.32)
-PYTHON_VENDOR_PACKAGES.64 = $(PYTHON.$(PYTHON_VERSION).VENDOR_PACKAGES.64)
-PYTHON_VENDOR_PACKAGES = $(PYTHON_VENDOR_PACKAGES.$(BITS))
-
-# python2 was built for both 32- and 64-bits.
-# python3 is built for 64-bits only.
-
-PYTHON.3.9 =	/usr/bin/python3.9
-PYTHON.3.9.64 =	$(PYTHON.3.9)
-
-PYTHON.64 =	$(PYTHON.$(PYTHON_VERSION).64)
-PYTHON =	$(PYTHON.$(PYTHON_VERSION))
-
-TOX.3.9 =	/usr/bin/tox-3.9
-TOX =		$(TOX.$(PYTHON_VERSION))
-
-# The default is site-packages, but that directory belongs to the end-user.
-# Modules which are shipped by the OS but not with the core Python distribution
-# belong in vendor-packages.
-PYTHON_DIR= /usr/lib/python$(PYTHON_VERSION)
-PYTHON_LIB= $(PYTHON_DIR)/vendor-packages
-PYTHON_DATA= $(PYTHON_LIB)
 
 # If the component has python scripts then the first line should probably
 # point at the python version currently set by the $(PYTHON) variable so
@@ -902,7 +894,7 @@ QT6_PKG_CONFIG_PATH = $(QT6_LIBDIR)/pkgconfig
 #
 
 # This is the default version of Perl
-PERL_VERSION =  5.40
+PERL_VERSION = 5.42
 
 # The PERL_VERSIONS list should always be in ascending order (newest version
 # last)
@@ -919,7 +911,7 @@ PERL_64_ONLY_VERSIONS = $(PERL_VERSIONS)
 #
 # This list should be usually empty.  Intersection of PERL_VERSIONS_OBSOLETING
 # and PERL_VERSIONS lists MUST be always empty.
-PERL_VERSIONS_OBSOLETING = 5.36
+PERL_VERSIONS_OBSOLETING =
 
 define perl-path-rule
 PERL.$(1) =		/usr/perl5/$(1)/bin/perl
@@ -1096,7 +1088,7 @@ TCLSH.8.6.sparc.64 =	/usr/bin/sparcv9/tclsh8.6
 TCLSH =		$(TCLSH.$(TCL_VERSION).$(MACH).$(BITS))
 
 # ICU library
-ICU_VERSION =			77
+ICU_VERSION =			78
 ICU_LIBRARY_PKG =		library/icu-$(ICU_VERSION)
 REQUIRED_PACKAGES_SUBST +=	ICU_LIBRARY_PKG
 
@@ -1568,12 +1560,18 @@ REQUIRED_PACKAGES_SUBST+= GOBJC_RUNTIME_PKG
 
 # Generate requirements on all built python version variants for given packages
 USERLAND_REQUIRED_PACKAGES += $(foreach ver,$(PYTHON_VERSIONS),$(USERLAND_REQUIRED_PACKAGES.python:%=%-$(subst .,,$(ver))))
+REQUIRED_PACKAGES += $(foreach ver,$(PYTHON_VERSIONS),$(REQUIRED_PACKAGES.python:%=%-$(subst .,,$(ver))))
 REQUIRED_PACKAGES += $(foreach ver,$(PYTHON_VERSIONS),$(PYTHON_REQUIRED_PACKAGES:%=%-$(subst .,,$(ver))))
+BOOTSTRAP_SKIP_REQUIRED_PACKAGES += $(foreach ver,$(PYTHON_VERSIONS),$(BOOTSTRAP_SKIP_REQUIRED_PACKAGES.python:%=%-$(subst .,,$(ver))))
+USERLAND_TEST_REQUIRED_PACKAGES += $(foreach ver,$(PYTHON_VERSIONS),$(USERLAND_TEST_REQUIRED_PACKAGES.python:%=%-$(subst .,,$(ver))))
 TEST_REQUIRED_PACKAGES += $(foreach ver,$(PYTHON_VERSIONS),$(TEST_REQUIRED_PACKAGES.python:%=%-$(subst .,,$(ver))))
 
 # Generate requirements on all built perl version variants for given packages
 USERLAND_REQUIRED_PACKAGES += $(foreach ver,$(PERL_VERSIONS),$(USERLAND_REQUIRED_PACKAGES.perl:%=%-$(subst .,,$(ver))))
+REQUIRED_PACKAGES += $(foreach ver,$(PERL_VERSIONS),$(REQUIRED_PACKAGES.perl:%=%-$(subst .,,$(ver))))
 REQUIRED_PACKAGES += $(foreach ver,$(PERL_VERSIONS),$(PERL_REQUIRED_PACKAGES:%=%-$(subst .,,$(ver))))
+BOOTSTRAP_SKIP_REQUIRED_PACKAGES += $(foreach ver,$(PERL_VERSIONS),$(BOOTSTRAP_SKIP_REQUIRED_PACKAGES.perl:%=%-$(subst .,,$(ver))))
+USERLAND_TEST_REQUIRED_PACKAGES += $(foreach ver,$(PERL_VERSIONS),$(USERLAND_TEST_REQUIRED_PACKAGES.perl:%=%-$(subst .,,$(ver))))
 TEST_REQUIRED_PACKAGES += $(foreach ver,$(PERL_VERSIONS),$(TEST_REQUIRED_PACKAGES.perl:%=%-$(subst .,,$(ver))))
 
 # Generate conflicting packages for all built python version variants for given package

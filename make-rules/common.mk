@@ -55,7 +55,15 @@ ifeq ($(strip $(SINGLE_PYTHON_VERSION)),yes)
 PYTHON_VERSIONS = $(PYTHON_VERSION)
 endif
 
+# Include prep.mk.  If we need the generic cargo vendor support then include
+# cargo-vendor.mk instead.  The cargo-vendor.mk includes prep.mk internally and
+# wraps the vendor patching around it.
+CARGO_VENDOR ?= no
+ifeq ($(strip $(CARGO_VENDOR)),no)
 include $(WS_MAKE_RULES)/prep.mk
+else
+include $(WS_MAKE_RULES)/cargo-vendor.mk
+endif
 
 # Override this to limit builds and publication to a single architecture.
 BUILD_ARCH ?= $(MACH)

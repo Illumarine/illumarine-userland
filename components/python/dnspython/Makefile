@@ -19,23 +19,21 @@ BUILD_STYLE = pyproject
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =		dnspython
-HUMAN_VERSION =			2.7.0
+HUMAN_VERSION =			2.8.0
 COMPONENT_SUMMARY =		DNS toolkit
+COMPONENT_PROJECT_URL =		https://www.dnspython.org
 COMPONENT_ARCHIVE_HASH =	\
-	sha256:ce9c432eda0dc91cf618a5cedf1a4e142651196bbcd2c80e89ed5a907e5cfaf1
+	sha256:181d3c6996452cb1189c4046c61599b84a5a86e099562ffde77d26984ff26d0f
 COMPONENT_LICENSE =		ISC
 COMPONENT_LICENSE_FILE =	LICENSE
 
 TEST_STYLE = pytest
 
+# Python 3.9 is not supported by dnspython >= 2.8.0
+PYTHON_VERSIONS := $(filter-out 3.9,$(PYTHON_VERSIONS))
+
 include $(WS_MAKE_RULES)/common.mk
 
-# The following four tests needs OpenSSL >= 3.2 to pass
-PYTEST_ADDOPTS += --deselect tests/test_dnssec.py::DNSSECSignatureTestCase::testDeterministicSignatureECDSAP256SHA256
-PYTEST_ADDOPTS += --deselect tests/test_dnssec.py::DNSSECSignatureTestCase::testSignatureECDSAP256SHA256
-PYTEST_ADDOPTS += --deselect tests/test_dnssec.py::DNSSECSignatureTestCase::testSignatureECDSAP384SHA384
-PYTEST_ADDOPTS += --deselect tests/test_dnssecalgs.py::DNSSECAlgorithm::test_ecdsa
-
 # Auto-generated dependencies
-PYTHON_REQUIRED_PACKAGES += library/python/hatchling
-PYTHON_REQUIRED_PACKAGES += runtime/python
+REQUIRED_PACKAGES.python += library/python/hatchling
+REQUIRED_PACKAGES.python += runtime/python

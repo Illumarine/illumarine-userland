@@ -241,10 +241,10 @@ endif
 # - for all python versions we are currently obsoleting (from PYTHON_VERSIONS_OBSOLETING)
 # - the $(PYV) string itself
 PYTHON_PYV_VALUES = $(subst .,,$(PYTHON_VERSIONS) $(PYTHON_VERSIONS_OBSOLETING)) $$(PYV)
-# Convert REQUIRED_PACKAGES to PYTHON_REQUIRED_PACKAGES for runtime/python
-REQUIRED_PACKAGES_TRANSFORM += $(foreach v,$(subst $,\$,$(PYTHON_PYV_VALUES)),-e 's|^\(.*runtime/python\)-$(v)$$|PYTHON_\1|g')
-# Convert REQUIRED_PACKAGES to PYTHON_REQUIRED_PACKAGES for library/python/*
-REQUIRED_PACKAGES_TRANSFORM += $(foreach v,$(subst $,\$,$(PYTHON_PYV_VALUES)),-e 's|^\(.*library/python/.*\)-$(v)$$|PYTHON_\1|g')
+# Convert REQUIRED_PACKAGES to REQUIRED_PACKAGES.python for runtime/python
+REQUIRED_PACKAGES_TRANSFORM += $(foreach v,$(subst $,\$,$(PYTHON_PYV_VALUES)),-e 's|^\(REQUIRED_PACKAGES\)\(.*runtime/python\)-$(v)$$|\1.python\2|g')
+# Convert REQUIRED_PACKAGES to REQUIRED_PACKAGES.python for library/python/*
+REQUIRED_PACKAGES_TRANSFORM += $(foreach v,$(subst $,\$,$(PYTHON_PYV_VALUES)),-e 's|^\(REQUIRED_PACKAGES\)\(.*library/python/.*\)-$(v)$$|\1.python\2|g')
 
 # Look for manifests which need to be duplicated for each version of perl.
 ifeq ($(findstring -PERLVER,$(UNVERSIONED_MANIFESTS)),-PERLVER)
@@ -264,10 +264,10 @@ endif
 # - for all perl versions we are currently obsoleting (from PERL_VERSIONS_OBSOLETING)
 # - the $(PLV) string itself
 PERL_PLV_VALUES = $(subst .,,$(PERL_VERSIONS) $(PERL_VERSIONS_OBSOLETING)) $$(PLV)
-# Convert REQUIRED_PACKAGES to PERL_REQUIRED_PACKAGES for runtime/perl
-REQUIRED_PACKAGES_TRANSFORM += $(foreach v,$(subst $,\$,$(PERL_PLV_VALUES)),-e 's|^\(.*runtime/perl\)-$(v)$$|PERL_\1|g')
-# Convert REQUIRED_PACKAGES to PERL_REQUIRED_PACKAGES for library/perl-5/*
-REQUIRED_PACKAGES_TRANSFORM += $(foreach v,$(subst $,\$,$(PERL_PLV_VALUES)),-e 's|^\(.*library/perl-5/.*\)-$(v)$$|PERL_\1|g')
+# Convert REQUIRED_PACKAGES to REQUIRED_PACKAGES.perl for runtime/perl
+REQUIRED_PACKAGES_TRANSFORM += $(foreach v,$(subst $,\$,$(PERL_PLV_VALUES)),-e 's|^\(REQUIRED_PACKAGES\)\(.*runtime/perl\)-$(v)$$|\1.perl\2|g')
+# Convert REQUIRED_PACKAGES to REQUIRED_PACKAGES.perl for library/perl-5/*
+REQUIRED_PACKAGES_TRANSFORM += $(foreach v,$(subst $,\$,$(PERL_PLV_VALUES)),-e 's|^\(REQUIRED_PACKAGES\)\(.*library/perl-5/.*\)-$(v)$$|\1.perl\2|g')
 
 # Look for manifests which need to be duplicated for each version of ruby.
 # NOPERL_MANIFESTS represents the manifests that are not Python or
@@ -330,7 +330,8 @@ $(GENERATED).p5m:	install $(GENERATE_EXTRA_DEPS)
 	$(PKGMOGRIFY) $(PKG_OPTIONS) /dev/fd/0 $(GENERATE_TRANSFORMS) | \
 		$(GSED) -e '/^$$/d' -e '/^#.*$$/d' \
 			-e '/\.la$$/d' \
-			-e 's/$(subst .,\.,$(GNU_TRIPLET))/$$(GNU_TRIPLET)/g' | \
+			-e 's/$(subst .,\.,$(GNU_TRIPLET))/$$(GNU_TRIPLET)/g' \
+			$(GENERATE_EXTRA_SED) | \
 		$(PKGFMT) -u | \
 		uniq | \
 		$(PKGFMT) | \
@@ -498,7 +499,7 @@ PKGDEPEND_GENERATE_OPTIONS += -m
 PKGDEPEND_GENERATE_OPTIONS += $(PKG_PROTO_DIRS:%=-d %)
 PKGDEPEND_GENERATE_OPTIONS += $(PKGDEPEND_RUNPATH:%=-k %)
 $(MANIFEST_BASE)-%.depend:	$(MANIFEST_BASE)-%.mangled
-	$(PKGDEPEND) generate $(PKGDEPEND_GENERATE_OPTIONS) $< >$@
+	$(PKGDEPEND_GENERATE_ENV) $(PKGDEPEND) generate $(PKGDEPEND_GENERATE_OPTIONS) $< >$@
 
 # pkgdepend resolve builds a map of all installed packages by default.  This
 # makes dependency resolution particularly slow.  We can dramatically improve
@@ -648,14 +649,8 @@ ifeq	($(strip $(CANONICAL_MANIFESTS)),)
 	$(error Missing canonical manifest(s))
 endif
 
-# Component variables are expanded directly to PKG_OPTIONS instead of via
-# PKG_MACROS since the values may contain whitespace.
-mkdefine = -D $(1)="$$(strip $(2))"
-
 # Expand PKG_VARS into defines via PKG_OPTIONS.
-$(foreach var, $(PKG_VARS), \
-    $(eval PKG_OPTIONS += $(call mkdefine,$(var),$$($(var)))) \
-)
+PKG_OPTIONS += $(foreach var,$(PKG_VARS),-D $(var)="$($(var))")
 
 # This converts required paths to containing package names for be able to
 # properly setup the build environment for a component.

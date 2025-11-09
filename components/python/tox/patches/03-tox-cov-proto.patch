@@ -1,8 +1,8 @@
 We test in proto area not in site-packages.
 
---- tox-4.25.0/tox.toml.orig
-+++ tox-4.25.0/tox.toml
-@@ -22,7 +22,7 @@
+--- tox-4.32.0/tox.toml.orig
++++ tox-4.32.0/tox.toml
+@@ -24,7 +24,7 @@
        "{work_dir}{/}junit.{env_name}.xml",
        "--no-cov-on-fail",
        "--cov",

@@ -28,12 +28,13 @@
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME=		gnuplot
-COMPONENT_VERSION=	6.0.2
+COMPONENT_VERSION=	6.0.3
+COMPONENT_REVISION=	1
 COMPONENT_SUMMARY=	gnuplot - plotting utility
 COMPONENT_SRC=		$(COMPONENT_NAME)-$(COMPONENT_VERSION)
 COMPONENT_PROJECT_URL=  http://www.gnuplot.info/
 COMPONENT_ARCHIVE=	$(COMPONENT_SRC).tar.gz
-COMPONENT_ARCHIVE_HASH=	sha256:f68a3b0bbb7bbbb437649674106d94522c00bf2f285cce0c19c3180b1ee7e738
+COMPONENT_ARCHIVE_HASH=	sha256:ec52e3af8c4083d4538152b3f13db47f6d29929a3f6ecec5365c834e77f251ab
 COMPONENT_ARCHIVE_URL=	https://sourceforge.net/projects/$(COMPONENT_NAME)/files/$(COMPONENT_NAME)/$(COMPONENT_VERSION)/$(COMPONENT_ARCHIVE)/download
 COMPONENT_FMRI=	image/gnuplot
 COMPONENT_CLASSIFICATION=	Applications/Graphics and Imaging
@@ -43,7 +44,9 @@ COMPONENT_BUILD_TARGETS= all info
 
 include $(WS_MAKE_RULES)/common.mk
 
-COMPONENT_PREP_ACTION= (cd $(@D) && autoreconf -fi)
+COMPONENT_PREP_ACTION= ( cd $(@D) && autoreconf -fiv )
+
+COMPONENT_BUILD_TARGETS= all info
 
 CPPFLAGS += -I/usr/include/gd2
 
@@ -56,7 +59,7 @@ PATH= $(PATH.gnu):$(QT5_BINDIR)
 PKG_CONFIG_PATH=$(PKG_CONFIG_PATH.$(BITS)):$(QT5_PKG_CONFIG_PATH)
 LD_OPTIONS += -L$(QT5_LIBDIR) -R$(QT5_LIBDIR)
 
-CONFIGURE_OPTIONS  += --sysconfdir=$(ETCDIR)/gnu
+#CONFIGURE_OPTIONS  += --sysconfdir=$(ETCDIR)/gnu
 CONFIGURE_OPTIONS  += --infodir=$(CONFIGURE_INFODIR)
 CONFIGURE_OPTIONS  += --x-libraries=$(CONFIGURE_LIBDIR.64)
 CONFIGURE_OPTIONS  += --without-libcerf
@@ -66,12 +69,19 @@ CONFIGURE_OPTIONS  += CFLAGS="$(CFLAGS)"
 CONFIGURE_OPTIONS  += CXXFLAGS="$(CXXFLAGS)"
 
 # We want to deploy the demo files
-DEMOSOURCES=	$(SOURCE_DIR)/demo
-DEMODEST=		$(PROTO_DIR)/usr/demo/gnuplot
+DEMODEST= $(PROTO_DIR)/usr/demo/gnuplot
+# Copy collected demo files into its destination folder.
+COMPONENT_POST_INSTALL_ACTION += ( \
+	$(MKDIR) $(DEMODEST); \
+	$(CP) -r $(SOURCE_DIR)/demo/* $(DEMODEST); \
+	$(CP) -r $(BUILD_DIR_64)/demo/* $(DEMODEST); \
+	$(CP) $(COMPONENT_DIR)/files/rundemo $(COMPONENT_DIR)/files/runtcldemo $(DEMODEST)/ \
+);
 
-COMPONENT_POST_INSTALL_ACTION += \
-	$(MKDIR) $(DEMODEST) && \
-	$(CP) -Rp $(DEMOSOURCES)/* $(DEMODEST)/
+COMPONENT_POST_INSTALL_ACTION += ( \
+	$(MKDIR) $(PROTOUSRSHAREDIR)/info ; \
+	$(CP) -r $(BUILD_DIR_64)/docs/gnuplot.info $(PROTOUSRSHAREDIR)/info/ \
+);
 
 # Manually added dependencies
 REQUIRED_PACKAGES += editor/gnu-emacs

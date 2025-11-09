@@ -4,7 +4,7 @@ cachedir: .pytest_cache
 rootdir: $(@D)
 configfile: pyproject.toml
 testpaths: tests
-collecting ... collected 551 items
+collecting ... collected 550 items
 
 tests/test_base.py::test_or PASSED
 tests/test_base.py::test_and PASSED
@@ -209,7 +209,6 @@ tests/test_inspection.py::test_has_attributes[-HasAttributes(a=1, b=2)] PASSED
 tests/test_inspection.py::test_has_attributes[-HasAttributes(a=IsInt(), b=IsStr())] PASSED
 tests/test_inspection.py::test_has_attributes[-~HasAttributes(a=IsInt(), b=IsStr())] PASSED
 tests/test_inspection.py::test_has_attributes[-~HasAttributes(a=1, b=2, c=3)] PASSED
-tests/test_inspection.py::test_has_attributes[-HasAttributes(a=1, b=2, spam=AnyThing)] PASSED
 tests/test_inspection.py::test_has_attributes[-~HasAttributes(a=1, b=2, missing=AnyThing)] PASSED
 tests/test_inspection.py::test_has_repr[-HasRepr('Bar(a=1, b=2)')0] PASSED
 tests/test_inspection.py::test_has_repr[-HasRepr('Bar(a=1, b=2)')1] PASSED
@@ -382,21 +381,21 @@ tests/test_numeric.py::test_not_negative PASSED
 tests/test_other.py::test_is_uuid_true[other0-dirty0] PASSED
 tests/test_other.py::test_is_uuid_true[other1-IsUUID] PASSED
 tests/test_other.py::test_is_uuid_true[other2-dirty2] PASSED
-tests/test_other.py::test_is_uuid_true[edf9f29e-45c7-431c-99db-28ea44df9785-IsUUID] PASSED
-tests/test_other.py::test_is_uuid_true[edf9f29e-45c7-431c-99db-28ea44df9785-dirty4] PASSED
+tests/test_other.py::test_is_uuid_true[$(UUID)-IsUUID] PASSED
+tests/test_other.py::test_is_uuid_true[$(UUID)-dirty4] PASSED
 tests/test_other.py::test_is_uuid_true[edf9f29e45c7431c99db28ea44df9785-dirty5] PASSED
 tests/test_other.py::test_is_uuid_true[other6-IsUUID] PASSED
 tests/test_other.py::test_is_uuid_true[other7-dirty7] PASSED
 tests/test_other.py::test_is_uuid_true[other8-dirty8] PASSED
-tests/test_other.py::test_is_uuid_true[a02500aa-d0aa-11ef-8d9c-88002029ba98-dirty9] PASSED
-tests/test_other.py::test_is_uuid_true[ea9e828d-fd18-3898-99f3-5a46dbcee036-dirty10] PASSED
+tests/test_other.py::test_is_uuid_true[$(UUID)-dirty9] PASSED
+tests/test_other.py::test_is_uuid_true[$(UUID)-dirty10] PASSED
 tests/test_other.py::test_is_uuid_false[foobar-dirty0] PASSED
 tests/test_other.py::test_is_uuid_false[other1-dirty1] PASSED
-tests/test_other.py::test_is_uuid_false[edf9f29e-45c7-431c-99db-28ea44df9785-dirty2] PASSED
+tests/test_other.py::test_is_uuid_false[$(UUID)-dirty2] PASSED
 tests/test_other.py::test_is_uuid_false[other3-dirty3] PASSED
 tests/test_other.py::test_is_uuid_false[other4-dirty4] PASSED
-tests/test_other.py::test_is_uuid_false[edf9f29e-45c7-431c-99db-28ea44df9785-dirty5] PASSED
-tests/test_other.py::test_is_uuid_false[ea9e828d-fd18-3898-99f3-5a46dbcee036-dirty6] PASSED
+tests/test_other.py::test_is_uuid_false[$(UUID)-dirty5] PASSED
+tests/test_other.py::test_is_uuid_false[$(UUID)-dirty6] PASSED
 tests/test_other.py::test_is_uuid_false_repr PASSED
 tests/test_other.py::test_is_uuid4_false_repr PASSED
 tests/test_other.py::test_is_json_any_true[null] PASSED
@@ -558,4 +557,4 @@ tests/test_strings.py::test_regex_false PASSED
 tests/test_strings.py::test_regex_false_type_error PASSED
 tests/test_strings.py::test_is_any_str PASSED
 
-======== 551 passed ========
+======== 550 passed ========

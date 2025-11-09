@@ -19,26 +19,25 @@ BUILD_STYLE = makemaker
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =		URI
-HUMAN_VERSION =			5.32
-COMPONENT_REVISION =		1
+HUMAN_VERSION =			5.34
 COMPONENT_SUMMARY =		Uniform Resource Identifiers (absolute and relative)
 COMPONENT_CPAN_AUTHOR =		OALDERS
 COMPONENT_ARCHIVE_HASH =	\
-	sha256:9632067d34e14e0dae2da94631c4f25a387fcc48d06fa29330e8b3c04c4e913d
+	sha256:de64c779a212ff1821896c5ca2bb69e74767d2674cee411e777deea7a22604a8
 COMPONENT_LICENSE =		Artistic-1.0-Perl OR GPL-1.0-or-later
 COMPONENT_LICENSE_FILE =	LICENSE
 
 include $(WS_MAKE_RULES)/common.mk
 
 # Auto-generated dependencies
-PERL_REQUIRED_PACKAGES += library/perl-5/encode
-PERL_REQUIRED_PACKAGES += library/perl-5/extutils-makemaker
-PERL_REQUIRED_PACKAGES += library/perl-5/libnet
-PERL_REQUIRED_PACKAGES += library/perl-5/mime-base32
-PERL_REQUIRED_PACKAGES += library/perl-5/mime-base64
-PERL_REQUIRED_PACKAGES += library/perl-5/parent
-PERL_REQUIRED_PACKAGES += library/perl-5/scalar-list-utils
-PERL_REQUIRED_PACKAGES += runtime/perl
+REQUIRED_PACKAGES.perl += library/perl-5/encode
+REQUIRED_PACKAGES.perl += library/perl-5/extutils-makemaker
+REQUIRED_PACKAGES.perl += library/perl-5/libnet
+REQUIRED_PACKAGES.perl += library/perl-5/mime-base32
+REQUIRED_PACKAGES.perl += library/perl-5/mime-base64
+REQUIRED_PACKAGES.perl += library/perl-5/parent
+REQUIRED_PACKAGES.perl += library/perl-5/scalar-list-utils
+REQUIRED_PACKAGES.perl += runtime/perl
 TEST_REQUIRED_PACKAGES.perl += library/perl-5/cpan-meta
 TEST_REQUIRED_PACKAGES.perl += library/perl-5/extutils-makemaker
 TEST_REQUIRED_PACKAGES.perl += library/perl-5/file-temp

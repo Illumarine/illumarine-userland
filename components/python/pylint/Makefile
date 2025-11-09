@@ -19,10 +19,11 @@ BUILD_STYLE = pyproject
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =		pylint
-HUMAN_VERSION =			3.3.7
+HUMAN_VERSION =			3.3.9
 COMPONENT_SUMMARY =		python code static checker
+COMPONENT_PROJECT_URL =		https://github.com/pylint-dev/pylint
 COMPONENT_ARCHIVE_HASH =	\
-	sha256:2b11de8bde49f9c5059452e0c310c079c746a0a8eeaa789e5aa966ecc23e4559
+	sha256:d312737d7b25ccf6b01cc4ac629b5dcd14a0fcf3ec392735ac70f137a9d5f83a
 COMPONENT_LICENSE =		GPL-2.0-only
 COMPONENT_LICENSE_FILE =	LICENSE
 
@@ -56,16 +57,16 @@ PYTEST_SORT_TESTS = yes
 COMPONENT_TEST_TRANSFORMS += "-e 's|/tmp/.*/garbage[^/]*|\$$(TMPDIR)|'"
 
 # Auto-generated dependencies
-PYTHON_REQUIRED_PACKAGES += library/python/astroid
-PYTHON_REQUIRED_PACKAGES += library/python/dill
-PYTHON_REQUIRED_PACKAGES += library/python/isort
-PYTHON_REQUIRED_PACKAGES += library/python/mccabe
-PYTHON_REQUIRED_PACKAGES += library/python/platformdirs
-PYTHON_REQUIRED_PACKAGES += library/python/setuptools
-PYTHON_REQUIRED_PACKAGES += library/python/tomli
-PYTHON_REQUIRED_PACKAGES += library/python/tomlkit
-PYTHON_REQUIRED_PACKAGES += library/python/typing-extensions
-PYTHON_REQUIRED_PACKAGES += runtime/python
+REQUIRED_PACKAGES.python += library/python/astroid
+REQUIRED_PACKAGES.python += library/python/dill
+REQUIRED_PACKAGES.python += library/python/isort
+REQUIRED_PACKAGES.python += library/python/mccabe
+REQUIRED_PACKAGES.python += library/python/platformdirs
+REQUIRED_PACKAGES.python += library/python/setuptools
+REQUIRED_PACKAGES.python += library/python/tomli
+REQUIRED_PACKAGES.python += library/python/tomlkit
+REQUIRED_PACKAGES.python += library/python/typing-extensions
+REQUIRED_PACKAGES.python += runtime/python
 TEST_REQUIRED_PACKAGES.python += library/python/astroid
 TEST_REQUIRED_PACKAGES.python += library/python/coverage
 TEST_REQUIRED_PACKAGES.python += library/python/gitpython

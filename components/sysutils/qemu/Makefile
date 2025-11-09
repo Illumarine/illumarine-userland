@@ -21,7 +21,7 @@ include ../../../make-rules/shared-macros.mk
 PATH= $(PATH.gnu)
 
 COMPONENT_NAME=		qemu
-COMPONENT_VERSION=	10.0.2
+COMPONENT_VERSION=	10.1.2
 COMPONENT_SUMMARY=	\
 		A generic and open source machine emulator and virtualizer
 COMPONENT_PROJECT_URL=	https://www.qemu.org/
@@ -29,7 +29,7 @@ COMPONENT_FMRI=		system/qemu
 COMPONENT_CLASSIFICATION= System/Virtualization
 COMPONENT_SRC=		$(COMPONENT_NAME)-$(COMPONENT_VERSION)
 COMPONENT_ARCHIVE=	$(COMPONENT_SRC).tar.xz
-COMPONENT_ARCHIVE_HASH=	sha256:ef786f2398cb5184600f69aef4d5d691efd44576a3cff4126d38d4c6fec87759
+COMPONENT_ARCHIVE_HASH=	sha256:9d75f331c1a5cb9b6eb8fd9f64f563ec2eab346c822cb97f8b35cd82d3f11479
 COMPONENT_ARCHIVE_URL=	https://download.qemu.org/$(COMPONENT_ARCHIVE)
 COMPONENT_LICENSE= 	GPLv2
 COMPONENT_LICENSE_FILE=	COPYING
@@ -52,8 +52,12 @@ CFLAGS		+= -D__EXTENSIONS__=1
 
 CONFIGURE_OPTION += --enable-docs
 
+# ../../qemu-10.1.0/chardev/char-zconsole.c:64:23: error: initialization of 'void (*)(ObjectClass *, const void *)' from incompatible pointer type 'void (*)(ObjectClass *, void *)' [-Wincompatible-pointer-types]
+CFLAGS += -Wno-error=incompatible-pointer-types
+
 # Build dependencies
 REQUIRED_PACKAGES += library/libtasn1
+PYTHON_REQUIRED_PACKAGES += library/python/sphinx-rtd-theme
 
 # Auto-generated dependencies
 REQUIRED_PACKAGES += $(JPEG_IMPLEM_PKG)
